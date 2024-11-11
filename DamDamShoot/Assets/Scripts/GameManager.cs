@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public GameObject playerOne;
     public GameObject playerTwo;
 
+    public GameObject Server;
+    public GameObject Client;
     void Start()
     {
         // Only one role is active at a time for clarity
@@ -23,6 +25,7 @@ public class GameManager : MonoBehaviour
     {
         isServer = true;
         isClient = false;
+        Server.SetActive(true);
         SetPlayerMovement(true, false);
     }
 
@@ -30,6 +33,7 @@ public class GameManager : MonoBehaviour
     {
         isClient = true;
         isServer = false;
+        Client.SetActive(true);
         SetPlayerMovement(false, true);
     }
 
