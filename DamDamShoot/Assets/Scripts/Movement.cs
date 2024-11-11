@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class CapsuleMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed = 5f;    // Speed of movement
     private Rigidbody rb;
-    private bool isGrounded;
 
-    // Indicate if this capsule is Player 1 or Player 2
+    // Identifies if this capsule is Player 1 or Player 2
     public bool isPlayerOne;
 
     private GameManager gameManager;
@@ -14,42 +13,46 @@ public class CapsuleMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        // Locate GameManager in the scene
         gameManager = FindObjectOfType<GameManager>();
     }
 
     void Update()
     {
-        // Allow movement if GameManager confirms the correct role
+        // Check if the player should have control based on role
         if ((isPlayerOne && gameManager.isServer) || (!isPlayerOne && gameManager.isClient))
         {
             HandleMovement();
+        }
+        else
+        {
+            // If not allowed to move, stop movement
+            StopMovement();
         }
     }
 
     void HandleMovement()
     {
+        // Capture movement input
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
-        Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical).normalized * moveSpeed;
 
-        rb.MovePosition(transform.position + transform.TransformDirection(movement) * Time.deltaTime);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (moveHorizontal != 0 || moveVertical != 0)
         {
-            isGrounded = true;
+            // Calculate and apply movement velocity based on input
+            Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical).normalized * moveSpeed;
+            Vector3 velocity = transform.TransformDirection(movement);
+            rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
+        }
+        else
+        {
+            // No input, stop horizontal movement
+            StopMovement();
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    // Method to immediately stop horizontal movement
+    private void StopMovement()
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
+        rb.velocity = new Vector3(0, rb.velocity.y, 0);
     }
 }
