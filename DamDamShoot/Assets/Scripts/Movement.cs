@@ -1,58 +1,28 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class CapsuleMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;    // Speed of movement
+    public float speed = 5f; // Velocidad del jugador
     private Rigidbody rb;
-
-    // Identifies if this capsule is Player 1 or Player 2
-    public bool isPlayerOne;
-
-    private GameManager gameManager;
 
     void Start()
     {
+        // Obtiene el Rigidbody adjunto y desactiva la gravedad
         rb = GetComponent<Rigidbody>();
-        gameManager = FindObjectOfType<GameManager>();
+        rb.useGravity = false; // Desactiva la gravedad
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        // Check if the player should have control based on role
-        if ((isPlayerOne && gameManager.isServer) || (!isPlayerOne && gameManager.isClient))
-        {
-            HandleMovement();
-        }
-        else
-        {
-            // If not allowed to move, stop movement
-            StopMovement();
-        }
-    }
-
-    void HandleMovement()
-    {
-        // Capture movement input
+        // Captura la entrada del teclado WASD
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
 
-        if (moveHorizontal != 0 || moveVertical != 0)
-        {
-            // Calculate and apply movement velocity based on input
-            Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical).normalized * moveSpeed;
-            Vector3 velocity = transform.TransformDirection(movement);
-            rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
-        }
-        else
-        {
-            // No input, stop horizontal movement
-            StopMovement();
-        }
-    }
+        // Define el vector de movimiento en el plano XZ
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical) * speed;
 
-    // Method to immediately stop horizontal movement
-    private void StopMovement()
-    {
-        rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        // Asigna el vector de movimiento a la velocidad del Rigidbody
+        rb.velocity = movement;
     }
 }
