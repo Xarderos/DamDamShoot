@@ -280,7 +280,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 73354504}
-  - component: {fileID: 73354503}
+  - component: {fileID: 73354505}
   m_Layer: 0
   m_Name: ServerManager
   m_TagString: Untagged
@@ -288,20 +288,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &73354503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 73354502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af26c822775bb7b4aa2d1333a2c0cc8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 14825548}
-  port: 7777
 --- !u!4 &73354504
 Transform:
   m_ObjectHideFlags: 0
@@ -317,6 +303,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &73354505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73354502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebef2ee69968fa34cade4b8cf946b992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1: {fileID: 14825548}
+  player2: {fileID: 1360974092}
 --- !u!1 &389135278
 GameObject:
   m_ObjectHideFlags: 0
@@ -1653,7 +1653,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1984555950}
-  - component: {fileID: 1984555949}
+  - component: {fileID: 1984555951}
   m_Layer: 0
   m_Name: ClientManager
   m_TagString: Untagged
@@ -1661,20 +1661,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1984555949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1984555948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d7bad360b31f2b48999b681ee41273c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 14825548}
-  port: 7777
 --- !u!4 &1984555950
 Transform:
   m_ObjectHideFlags: 0
@@ -1690,6 +1676,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1984555951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984555948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509819f1f20ba17418623c7ff4219e30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1: {fileID: 14825548}
+  player2: {fileID: 1360974092}
 --- !u!1 &2109224184
 GameObject:
   m_ObjectHideFlags: 0
