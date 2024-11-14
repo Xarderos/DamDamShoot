@@ -11,9 +11,11 @@ public class ServerUDP : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
     string serverText;
+    Vector3 playerPosition;
 
     void Start()
     {
+        playerPosition = player1.transform.position;
         startServer();
     }
 
@@ -32,6 +34,7 @@ public class ServerUDP : MonoBehaviour
 
     void Update()
     {
+        playerPosition = player1.transform.position;
     }
 
     void Receive()
@@ -42,25 +45,36 @@ public class ServerUDP : MonoBehaviour
 
         serverText = serverText + "\nWaiting for new Client...";
 
-        while (true)
+        try
         {
             int recv = socket.ReceiveFrom(data, ref Remote);
             string message = Encoding.ASCII.GetString(data, 0, recv);
 
             serverText = serverText + $"\nMessage received from {Remote.ToString()}: {message}";
 
-            Thread sendThread = new Thread(() => Send(Remote));
-            sendThread.Start();
+            // Directly call Send without threading
+            Send(Remote);
         }
+        catch (SocketException ex)
+        {
+            serverText = serverText + "\nSocketException: " + ex.Message;
+        }
+
     }
 
     void Send(EndPoint Remote)
     {
-        //Sending player1 position to client
-        Vector3 playerPosition = player1.transform.position;
+        // Sending player1 position to client
         string message = $"{playerPosition.x}|{playerPosition.y}|{playerPosition.z}";
         byte[] data = Encoding.UTF8.GetBytes(message);
 
-        socket.SendTo(data, Remote);
+        try
+        {
+            socket.SendTo(data, Remote);
+        }
+        catch (SocketException ex)
+        {
+            serverText = serverText + "\nSocketException during Send: " + ex.Message;
+        }
     }
 }

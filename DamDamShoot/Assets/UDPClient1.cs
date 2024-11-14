@@ -15,19 +15,23 @@ public class ClientUDP1 : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
     private Vector3 receivedPositionP1; //Saves the recieved p1 position
+    Vector3 playerPosition; //Saves the p2 position
+
     bool positionUpdatedP1;
 
     void Start()
     {
 
-        serverIP = "192.168.1.136";
+        serverIP = "192.168.56.1";
         receivedPositionP1 = new Vector3(0, 0, 0);
+        playerPosition = player2.transform.position;
+
         StartClient();
     }
 
     void Update()
     {
-
+        playerPosition = player2.transform.position;
         if (positionUpdatedP1)
         {
             player1.transform.position = receivedPositionP1;
@@ -57,8 +61,7 @@ public class ClientUDP1 : MonoBehaviour
             IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(serverIP), 9050);
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-            Vector3 playerPositionP2 = player2.transform.position;
-            string message = $"{playerPositionP2.x}|{playerPositionP2.y}|{playerPositionP2.z}";
+            string message = $"{playerPosition.x}|{playerPosition.y}|{playerPosition.z}";
             byte[] data = Encoding.ASCII.GetBytes(message);
             socket.SendTo(data, ipep);
 
