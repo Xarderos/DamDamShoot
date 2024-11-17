@@ -3,78 +3,121 @@ using System.Net.Sockets;
 using System.Text;
 using UnityEngine;
 using System.Threading;
-using TMPro;
 
 public class ServerUDP : MonoBehaviour
 {
     Socket socket;
     public GameObject player1;
     public GameObject player2;
-    string serverText;
+
     Vector3 playerPosition;
+    private Vector3 receivedPositionP2;
+    private EndPoint clientEndpoint;
+    private bool isSending;
+    private Thread sendThread;
+    bool positionUpdatedP2;
 
     void Start()
     {
         playerPosition = player1.transform.position;
         startServer();
     }
-
     public void startServer()
     {
-        serverText = "Starting UDP Server...";
+        Debug.Log("Starting UDP Server...");
 
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
         IPEndPoint ipep = new IPEndPoint(IPAddress.Any, 9050);
         socket.Bind(ipep);
 
+        // Inicia el hilo para recibir mensajes
         Thread receiveThread = new Thread(Receive);
         receiveThread.Start();
+
+        // Inicializa el hilo para enviar posiciones continuamente
+        isSending = true;
+        sendThread = new Thread(SendContinuously);
+        sendThread.Start();
     }
 
     void Update()
     {
+        // Actualiza la posición del jugador desde el motor de física de Unity
         playerPosition = player1.transform.position;
+        if (positionUpdatedP2)
+        {
+            player2.transform.position = receivedPositionP2;
+            positionUpdatedP2 = false;
+        }
     }
 
     void Receive()
     {
         byte[] data = new byte[1024];
         IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-        EndPoint Remote = (EndPoint)sender;
+        EndPoint remote = (EndPoint)sender;
 
-        serverText = serverText + "\nWaiting for new Client...";
+        Debug.Log("Waiting for new Client...");
 
-        try
+        while (true)
         {
-            int recv = socket.ReceiveFrom(data, ref Remote);
-            string message = Encoding.ASCII.GetString(data, 0, recv);
+            try
+            {
+                int recv = socket.ReceiveFrom(data, ref remote);
+                string message = Encoding.ASCII.GetString(data, 0, recv);
 
-            serverText = serverText + $"\nMessage received from {Remote.ToString()}: {message}";
+                string[] positionData = message.Split('|');
 
-            // Directly call Send without threading
-            Send(Remote);
+                if (positionData.Length == 3 &&
+                    float.TryParse(positionData[0], out float x) &&
+                    float.TryParse(positionData[1], out float y) &&
+                    float.TryParse(positionData[2], out float z))
+                {
+                    receivedPositionP2 = new Vector3(x, y, z);
+                    positionUpdatedP2 = true;
+                }
+                // Actualiza el cliente remoto
+                lock (this)
+                {
+                    clientEndpoint = remote;
+                }
+            }
+            catch (SocketException ex)
+            {
+                Debug.LogError(ex.Message);
+            }
         }
-        catch (SocketException ex)
-        {
-            serverText = serverText + "\nSocketException: " + ex.Message;
-        }
-
     }
 
-    void Send(EndPoint Remote)
+    void SendContinuously()
     {
-        // Sending player1 position to client
+        while (isSending)
+        {
+            if (clientEndpoint != null)
+            {
+                lock (this)
+                {
+                    Send(clientEndpoint);
+                }
+            }
+            Thread.Sleep(10); // Envía cada 100 ms (ajustar según sea necesario)
+        }
+    }
+
+    void Send(EndPoint remote)
+    {
+        // Envía la posición del jugador al cliente
         string message = $"{playerPosition.x}|{playerPosition.y}|{playerPosition.z}";
         byte[] data = Encoding.UTF8.GetBytes(message);
 
         try
         {
-            socket.SendTo(data, Remote);
+            socket.SendTo(data, remote);
         }
         catch (SocketException ex)
         {
-            serverText = serverText + "\nSocketException during Send: " + ex.Message;
+            Debug.LogError("SocketException during Send: " + ex.Message);
         }
     }
 }
