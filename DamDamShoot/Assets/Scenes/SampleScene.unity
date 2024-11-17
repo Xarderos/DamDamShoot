@@ -248,6 +248,10 @@ MonoBehaviour:
   projectileSpeed: 12
   reloadTime: 1.5
   reloadSpeedMultiplier: 0.6
+  dashSpeedMultiplier: 3
+  dashDuration: 0.2
+  dashCooldown: 5
+  bulletTime: 2
 --- !u!54 &14825554
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1838,8 +1842,12 @@ MonoBehaviour:
   speed: 5
   projectilePrefab: {fileID: 8563628831176145471, guid: 86c1cf10c2fd26245afd4a1374906d39, type: 3}
   projectileSpeed: 12
-  reloadTime: 2
-  reloadSpeedMultiplier: 0.5
+  reloadTime: 1.5
+  reloadSpeedMultiplier: 0.6
+  dashSpeedMultiplier: 3
+  dashDuration: 0.2
+  dashCooldown: 5
+  bulletTime: 2
 --- !u!54 &1360974098
 Rigidbody:
   m_ObjectHideFlags: 0
