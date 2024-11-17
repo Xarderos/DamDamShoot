@@ -19,7 +19,7 @@ public class ClientUDP1 : MonoBehaviour
 
     void Start()
     {
-        serverIP = "192.168.1.137";
+        serverIP = "127.0.0.1";
         receivedPositionP1 = new Vector3(0, 0, 0);
         playerPosition = player2.transform.position;
 
