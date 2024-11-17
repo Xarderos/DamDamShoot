@@ -85,7 +85,7 @@ public class ServerUDP : MonoBehaviour
             }
             catch (SocketException ex)
             {
-                Debug.LogError(ex.Message);
+                Debug.Log(ex.Message);
             }
         }
     }
