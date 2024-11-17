@@ -13,11 +13,9 @@ public class GameManager : MonoBehaviour
     public GameObject Client;
     void Start()
     {
-        // Only one role is active at a time for clarity
         isServer = false;
         isClient = false;
 
-        // Disable both players' movement initially
         SetPlayerMovement(false, false);
     }
 

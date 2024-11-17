@@ -31,11 +31,9 @@ public class ServerUDP : MonoBehaviour
         IPEndPoint ipep = new IPEndPoint(IPAddress.Any, 9050);
         socket.Bind(ipep);
 
-        // Inicia el hilo para recibir mensajes
         Thread receiveThread = new Thread(Receive);
         receiveThread.Start();
 
-        // Inicializa el hilo para enviar posiciones continuamente
         isSending = true;
         sendThread = new Thread(SendContinuously);
         sendThread.Start();
@@ -43,7 +41,6 @@ public class ServerUDP : MonoBehaviour
 
     void Update()
     {
-        // Actualiza la posición del jugador desde el motor de física de Unity
         playerPosition = player1.transform.position;
         if (positionUpdatedP2)
         {
@@ -77,7 +74,6 @@ public class ServerUDP : MonoBehaviour
                     receivedPositionP2 = new Vector3(x, y, z);
                     positionUpdatedP2 = true;
                 }
-                // Actualiza el cliente remoto
                 lock (this)
                 {
                     clientEndpoint = remote;
@@ -101,13 +97,12 @@ public class ServerUDP : MonoBehaviour
                     Send(clientEndpoint);
                 }
             }
-            Thread.Sleep(10); // Envía cada 100 ms (ajustar según sea necesario)
+            Thread.Sleep(10);
         }
     }
 
     void Send(EndPoint remote)
     {
-        // Envía la posición del jugador al cliente
         string message = $"{playerPosition.x}|{playerPosition.y}|{playerPosition.z}";
         byte[] data = Encoding.UTF8.GetBytes(message);
 

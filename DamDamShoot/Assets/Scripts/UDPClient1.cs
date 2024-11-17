@@ -28,10 +28,8 @@ public class ClientUDP1 : MonoBehaviour
 
     void Update()
     {
-        // Actualiza la posición del jugador 2
         playerPosition = player2.transform.position;
 
-        // Si se recibe la posición del jugador 1, actualiza su posición en el juego
         if (positionUpdatedP1)
         {
             player1.transform.position = receivedPositionP1;
@@ -44,7 +42,7 @@ public class ClientUDP1 : MonoBehaviour
         if (!string.IsNullOrEmpty(serverIP))
         {
             Thread clientThread = new Thread(ClientLoop);
-            clientThread.IsBackground = true; // Permite que el hilo se cierre automáticamente al salir del programa
+            clientThread.IsBackground = true;
             clientThread.Start();
         }
         else
@@ -60,13 +58,10 @@ public class ClientUDP1 : MonoBehaviour
             IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(serverIP), 9050);
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-            // Bucle principal del cliente
             while (isRunning)
             {
-                // Enviar posición del jugador 2
                 SendPosition(ipep);
 
-                // Recibir posición del jugador 1
                 ReceivePosition();
             }
         }
@@ -76,7 +71,6 @@ public class ClientUDP1 : MonoBehaviour
         }
         finally
         {
-            // Cerrar el socket cuando se detenga el cliente
             socket?.Close();
         }
     }
@@ -123,6 +117,6 @@ public class ClientUDP1 : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        isRunning = false; // Detener el bucle del cliente
+        isRunning = false; 
     }
 }
