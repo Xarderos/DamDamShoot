@@ -3,11 +3,12 @@ using System.Net.Sockets;
 using System.Text;
 using UnityEngine;
 using System.Threading;
-
+using UnityEngine.UI;
 public class ClientUDP1 : MonoBehaviour
 {
     Socket socket;
     string serverIP;
+    public InputField ipInputField;
     public GameObject player1;
     public GameObject player2;
 
@@ -20,6 +21,10 @@ public class ClientUDP1 : MonoBehaviour
     void Start()
     {
         serverIP = "127.0.0.1";
+        if (!string.IsNullOrEmpty(ipInputField.text))
+        {
+            serverIP = ipInputField.text;
+        }
         receivedPositionP1 = new Vector3(0, 0, 0);
         playerPosition = player2.transform.position;
 
