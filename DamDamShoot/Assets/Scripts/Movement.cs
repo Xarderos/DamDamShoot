@@ -12,7 +12,7 @@ public class CapsuleMovement : MonoBehaviour
     public float dashDuration = 0.2f;
     public float dashCooldown = 5f;
     public float bulletTime = 2f;
-
+    public bool isP1 = true;
     private Rigidbody rb;
     private Camera mainCamera;
 

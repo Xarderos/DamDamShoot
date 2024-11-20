@@ -284,6 +284,7 @@ MonoBehaviour:
   dashDuration: 0.2
   dashCooldown: 4
   bulletTime: 2
+  isP1: 1
 --- !u!54 &14825554
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2614,6 +2615,7 @@ MonoBehaviour:
   dashDuration: 0.2
   dashCooldown: 4
   bulletTime: 2
+  isP1: 0
 --- !u!54 &1360974098
 Rigidbody:
   m_ObjectHideFlags: 0
