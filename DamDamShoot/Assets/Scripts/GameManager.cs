@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
     public bool isServer = false;
     public bool isClient = false;
     public Canvas canvas;
@@ -11,6 +13,22 @@ public class GameManager : MonoBehaviour
 
     public GameObject Server;
     public GameObject Client;
+
+    void Awake()
+    {
+        // Verifica si ya existe una instancia, si no, asigna esta.
+        if (instance == null)
+        {
+            instance = this;
+            // Asegúrate de que el objeto GameManager persista entre escenas si es necesario
+            // DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            // Si ya existe una instancia, destruye el nuevo objeto.
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         isServer = false;

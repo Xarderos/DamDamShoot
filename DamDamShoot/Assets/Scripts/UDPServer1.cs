@@ -3,9 +3,11 @@ using System.Net.Sockets;
 using System.Text;
 using UnityEngine;
 using System.Threading;
+using System;
 
 public class ServerUDP : MonoBehaviour
 {
+
     Socket socket;
     public GameObject player1;
     public GameObject player2;
@@ -16,6 +18,21 @@ public class ServerUDP : MonoBehaviour
     private bool isSending;
     private Thread sendThread;
     bool positionUpdatedP2;
+
+    public static ServerUDP Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            // Inicialización adicional si es necesario
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -81,7 +98,18 @@ public class ServerUDP : MonoBehaviour
             }
             catch (SocketException ex)
             {
-                Debug.Log(ex.Message);
+                if (ex.SocketErrorCode == SocketError.ConnectionReset)  // Verificamos si fue una desconexión
+                {
+                    Debug.LogWarning("La conexión se ha cerrado por el cliente.");
+                }
+                else
+                {
+                    Debug.LogError("Error de socket: " + ex.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Excepción general: " + ex.Message);
             }
         }
     }
@@ -101,6 +129,7 @@ public class ServerUDP : MonoBehaviour
         }
     }
 
+
     void Send(EndPoint remote)
     {
         string message = $"{playerPosition.x}|{playerPosition.y}|{playerPosition.z}";
@@ -115,4 +144,16 @@ public class ServerUDP : MonoBehaviour
             Debug.LogError("SocketException during Send: " + ex.Message);
         }
     }
+
+    public void BroadcastShot(float px, float py, float pz, float dx, float dz)
+    {
+        string message = $"SHOT|{px}|{py}|{pz}|{dx}|{dz}";
+        byte[] data = Encoding.UTF8.GetBytes(message);
+
+        if (clientEndpoint != null)
+        {
+            socket.SendTo(data, clientEndpoint);
+        }
+    }
+
 }

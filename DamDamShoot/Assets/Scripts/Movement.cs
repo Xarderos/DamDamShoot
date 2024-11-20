@@ -63,6 +63,12 @@ public class CapsuleMovement : MonoBehaviour
 
     void ShootProjectile()
     {
+        if (ammoCount <= 0)
+        {
+            Debug.LogWarning("No ammo left.");
+            return;
+        }
+
         ammoCount--;
         Debug.Log("Disparo realizado. Balas restantes: " + ammoCount);
 
@@ -72,11 +78,34 @@ public class CapsuleMovement : MonoBehaviour
             Vector3 direction = (hitInfo.point - transform.position).normalized;
 
             GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-
             Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
             if (projectileRb != null)
             {
                 projectileRb.velocity = direction * projectileSpeed;
+            }
+
+            if (GameManager.instance != null)
+            {
+                if (GameManager.instance.isServer && ServerUDP.Instance != null)
+                {
+                    ServerUDP.Instance.BroadcastShot(transform.position.x, transform.position.y, transform.position.z, direction.x, direction.z);
+                }
+                else if (GameManager.instance.isClient)
+                {
+                    ClientUDP1 clientUDP1 = FindObjectOfType<ClientUDP1>();
+                    if (clientUDP1 != null)
+                    {
+                        clientUDP1.SendShot(transform.position, direction);
+                    }
+                    else
+                    {
+                        Debug.LogError("ClientUDP1 not found in the scene!");
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError("GameManager instance is null.");
             }
 
             Destroy(projectile, bulletTime);
@@ -85,9 +114,9 @@ public class CapsuleMovement : MonoBehaviour
 
     void StartReload()
     {
-        if (reloadCoroutine != null) return;
+        if (isReloading) return;
 
-        reloadCoroutine = StartCoroutine(ReloadCoroutine());
+        StartCoroutine(ReloadCoroutine());
     }
 
     System.Collections.IEnumerator ReloadCoroutine()
@@ -101,11 +130,10 @@ public class CapsuleMovement : MonoBehaviour
 
         speed = originalSpeed;
 
-        ammoCount++;
+        ammoCount = 1; // Recargar 1 bala al completar la recarga
         Debug.Log("Recarga completa. Balas disponibles: " + ammoCount);
 
         isReloading = false;
-        reloadCoroutine = null;
     }
 
     void Dash()

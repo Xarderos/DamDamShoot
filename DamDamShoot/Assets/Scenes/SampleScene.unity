@@ -2388,6 +2388,9 @@ MonoBehaviour:
   ipInputField: {fileID: 1407999861}
   player1: {fileID: 14825548}
   player2: {fileID: 1360974092}
+  projectilePrefab: {fileID: 8563628831176145471, guid: 86c1cf10c2fd26245afd4a1374906d39, type: 3}
+  projectileSpeed: 10
+  bulletTime: 2
 --- !u!1 &2083099496
 GameObject:
   m_ObjectHideFlags: 0

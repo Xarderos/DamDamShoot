@@ -12,6 +12,10 @@ public class ClientUDP1 : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
 
+    public GameObject projectilePrefab;
+    public float projectileSpeed = 10f;
+    public float bulletTime = 2f;
+
     private Vector3 receivedPositionP1;
     private Vector3 playerPosition;
 
@@ -103,15 +107,26 @@ public class ClientUDP1 : MonoBehaviour
             int recv = socket.ReceiveFrom(data, ref remote);
             string message = Encoding.ASCII.GetString(data, 0, recv);
 
-            string[] positionData = message.Split('|');
+            string[] parts = message.Split('|');
 
-            if (positionData.Length == 3 &&
-                float.TryParse(positionData[0], out float x) &&
-                float.TryParse(positionData[1], out float y) &&
-                float.TryParse(positionData[2], out float z))
+            if (parts.Length == 3 &&
+                float.TryParse(parts[0], out float x) &&
+                float.TryParse(parts[1], out float y) &&
+                float.TryParse(parts[2], out float z))
             {
                 receivedPositionP1 = new Vector3(x, y, z);
                 positionUpdatedP1 = true;
+            }
+            else if (parts[0] == "SHOT" && parts.Length == 6)
+            {
+                if (float.TryParse(parts[1], out float px) &&
+                    float.TryParse(parts[2], out float py) &&
+                    float.TryParse(parts[3], out float pz) &&
+                    float.TryParse(parts[4], out float dx) &&
+                    float.TryParse(parts[5], out float dz))
+                {
+                    HandleShot(px, py, pz, dx, dz);
+                }
             }
         }
         catch (SocketException e)
@@ -123,5 +138,34 @@ public class ClientUDP1 : MonoBehaviour
     void OnApplicationQuit()
     {
         isRunning = false; 
+    }
+    void HandleShot(float px, float py, float pz, float dx, float dz)
+    {
+        Vector3 position = new Vector3(px, py, pz);
+        Vector3 direction = new Vector3(dx, 0, dz);
+
+        GameObject projectile = Instantiate(projectilePrefab, position, Quaternion.identity);
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = direction.normalized * projectileSpeed;
+        }
+        Destroy(projectile, bulletTime);
+    }
+
+    public void SendShot(Vector3 position, Vector3 direction)
+    {
+        string message = $"SHOT|{position.x}|{position.y}|{position.z}|{direction.x}|{direction.z}";
+        byte[] data = Encoding.ASCII.GetBytes(message);
+
+        try
+        {
+            IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(serverIP), 9050);
+            socket.SendTo(data, ipep);
+        }
+        catch (SocketException e)
+        {
+            Debug.LogError("Error sending shot data: " + e.Message);
+        }
     }
 }
