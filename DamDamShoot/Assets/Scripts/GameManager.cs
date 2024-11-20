@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
     public bool isServer = false;
     public bool isClient = false;
     public Canvas canvas;
@@ -11,6 +13,18 @@ public class GameManager : MonoBehaviour
 
     public GameObject Server;
     public GameObject Client;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         isServer = false;
