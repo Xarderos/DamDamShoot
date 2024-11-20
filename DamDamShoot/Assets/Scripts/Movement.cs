@@ -86,16 +86,21 @@ public class CapsuleMovement : MonoBehaviour
 
             if (GameManager.instance != null)
             {
+                Debug.Log("Hola 2");
+
                 if (GameManager.instance.isServer && ServerUDP.Instance != null)
                 {
+                    Debug.Log("Hola 6");
                     ServerUDP.Instance.BroadcastShot(transform.position.x, transform.position.y, transform.position.z, direction.x, direction.z);
                 }
-                else if (GameManager.instance.isClient)
+                else if (GameManager.instance.isClient && ClientUDP1.Instance != null)
                 {
+                    Debug.Log("Hola");
+
                     ClientUDP1 clientUDP1 = FindObjectOfType<ClientUDP1>();
                     if (clientUDP1 != null)
                     {
-                        clientUDP1.SendShot(transform.position, direction);
+                        clientUDP1.SendShot(transform.position.x, transform.position.y, transform.position.z, direction.x, direction.z);
                     }
                     else
                     {

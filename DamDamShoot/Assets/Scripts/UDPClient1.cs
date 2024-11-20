@@ -4,6 +4,10 @@ using System.Text;
 using UnityEngine;
 using System.Threading;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
+
+
 public class ClientUDP1 : MonoBehaviour
 {
     Socket socket;
@@ -18,9 +22,26 @@ public class ClientUDP1 : MonoBehaviour
 
     private Vector3 receivedPositionP1;
     private Vector3 playerPosition;
+    public static ClientUDP1 Instance { get; private set; }
+
+    private readonly Queue<System.Action> mainThreadActions = new Queue<System.Action>();
+
 
     bool positionUpdatedP1;
     bool isRunning = true;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            // Inicialización adicional si es necesario
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -43,6 +64,14 @@ public class ClientUDP1 : MonoBehaviour
         {
             player1.transform.position = receivedPositionP1;
             positionUpdatedP1 = false;
+        }
+
+        lock (mainThreadActions)
+        {
+            while (mainThreadActions.Count > 0)
+            {
+                mainThreadActions.Dequeue().Invoke();
+            }
         }
     }
 
@@ -139,23 +168,31 @@ public class ClientUDP1 : MonoBehaviour
     {
         isRunning = false; 
     }
-    void HandleShot(float px, float py, float pz, float dx, float dz)
+    public void HandleShot(float px, float py, float pz, float dx, float dz)
     {
-        Vector3 position = new Vector3(px, py, pz);
-        Vector3 direction = new Vector3(dx, 0, dz);
-
-        GameObject projectile = Instantiate(projectilePrefab, position, Quaternion.identity);
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        if (rb != null)
+        lock (mainThreadActions)
         {
-            rb.velocity = direction.normalized * projectileSpeed;
+            mainThreadActions.Enqueue(() =>
+            {
+                Vector3 position = new Vector3(px, py, pz);
+                Vector3 direction = new Vector3(dx, 0, dz);
+
+                GameObject projectile = Instantiate(projectilePrefab, position, Quaternion.identity);
+                Rigidbody rb = projectile.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.velocity = direction.normalized * projectileSpeed;
+                }
+                Destroy(projectile, bulletTime);
+            });
         }
-        Destroy(projectile, bulletTime);
     }
 
-    public void SendShot(Vector3 position, Vector3 direction)
+    public void SendShot(float px, float py, float pz, float dx, float dz)
     {
-        string message = $"SHOT|{position.x}|{position.y}|{position.z}|{direction.x}|{direction.z}";
+        Debug.Log("SendShot");
+
+        string message = $"SHOT|{px}|{py}|{pz}|{dx}|{dz}";
         byte[] data = Encoding.ASCII.GetBytes(message);
 
         try

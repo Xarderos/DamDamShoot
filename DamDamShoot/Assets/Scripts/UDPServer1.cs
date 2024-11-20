@@ -4,6 +4,8 @@ using System.Text;
 using UnityEngine;
 using System.Threading;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class ServerUDP : MonoBehaviour
 {
@@ -18,8 +20,11 @@ public class ServerUDP : MonoBehaviour
     private bool isSending;
     private Thread sendThread;
     bool positionUpdatedP2;
-
+    public GameObject projectilePrefab;
+    public float projectileSpeed = 10f;
+    public float bulletTime = 2f;
     public static ServerUDP Instance { get; private set; }
+    private readonly Queue<System.Action> mainThreadActions = new Queue<System.Action>();
 
     void Awake()
     {
@@ -64,10 +69,18 @@ public class ServerUDP : MonoBehaviour
             player2.transform.position = receivedPositionP2;
             positionUpdatedP2 = false;
         }
+        lock (mainThreadActions)
+        {
+            while (mainThreadActions.Count > 0)
+            {
+                mainThreadActions.Dequeue().Invoke();
+            }
+        }
     }
 
     void Receive()
     {
+
         byte[] data = new byte[1024];
         IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
         EndPoint remote = (EndPoint)sender;
@@ -90,6 +103,21 @@ public class ServerUDP : MonoBehaviour
                 {
                     receivedPositionP2 = new Vector3(x, y, z);
                     positionUpdatedP2 = true;
+                }
+                else if (positionData[0] == "SHOT" && positionData.Length == 6)
+                {
+                    Debug.Log("Receive");
+                    if (float.TryParse(positionData[1], out float px) &&
+                        float.TryParse(positionData[2], out float py) &&
+                        float.TryParse(positionData[3], out float pz) &&
+                        float.TryParse(positionData[4], out float dx) &&
+                        float.TryParse(positionData[5], out float dz))
+                    {
+                        // Aquí el servidor recibe el disparo y lo transmite a todos los jugadores
+                        //EnqueueMainThreadAction(() => BroadcastShot(px, py, pz, dx, dz));
+                        HandleShotOnServer(px, py, pz, dx, dz);
+
+                    }
                 }
                 lock (this)
                 {
@@ -144,9 +172,36 @@ public class ServerUDP : MonoBehaviour
             Debug.LogError("SocketException during Send: " + ex.Message);
         }
     }
+    void HandleShotOnServer(float px, float py, float pz, float dx, float dz)
+    {
+        lock (mainThreadActions)
+        {
+            mainThreadActions.Enqueue(() =>
+            {
+                Vector3 position = new Vector3(px, py, pz);
+                Vector3 direction = new Vector3(dx, 0, dz);
 
+                GameObject projectile = Instantiate(projectilePrefab, position, Quaternion.identity);
+                Rigidbody rb = projectile.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.velocity = direction.normalized * projectileSpeed;
+                }
+                Destroy(projectile, bulletTime);
+            });
+        }
+    }
+
+    //private void EnqueueMainThreadAction(Action action)
+    //{
+    //    lock (mainThreadActions)
+    //    {
+    //        mainThreadActions.Enqueue(action);
+    //    }
+    //}
     public void BroadcastShot(float px, float py, float pz, float dx, float dz)
     {
+        Debug.Log("Broadcast");
         string message = $"SHOT|{px}|{py}|{pz}|{dx}|{dz}";
         byte[] data = Encoding.UTF8.GetBytes(message);
 

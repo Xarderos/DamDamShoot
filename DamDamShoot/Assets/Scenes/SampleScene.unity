@@ -325,6 +325,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1: {fileID: 14825548}
   player2: {fileID: 1360974092}
+  projectilePrefab: {fileID: 8563628831176145471, guid: 86c1cf10c2fd26245afd4a1374906d39, type: 3}
+  projectileSpeed: 10
+  bulletTime: 2
 --- !u!1 &389135278
 GameObject:
   m_ObjectHideFlags: 0

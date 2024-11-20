@@ -16,16 +16,12 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        // Verifica si ya existe una instancia, si no, asigna esta.
         if (instance == null)
         {
             instance = this;
-            // Asegúrate de que el objeto GameManager persista entre escenas si es necesario
-            // DontDestroyOnLoad(gameObject);
         }
         else
         {
-            // Si ya existe una instancia, destruye el nuevo objeto.
             Destroy(gameObject);
         }
     }
