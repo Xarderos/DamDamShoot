@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CapsuleMovement : MonoBehaviour
@@ -174,5 +175,17 @@ public class CapsuleMovement : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
         Debug.Log("Dash listo para usarse nuevamente");
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(isP1 && collision.transform.tag == "BulletP2")
+        {
+            SceneManager.LoadScene("P2Win");
+        }
+        if (!isP1 && collision.transform.tag == "BulletP1")
+        {
+            SceneManager.LoadScene("P1Win");
+        }
     }
 }

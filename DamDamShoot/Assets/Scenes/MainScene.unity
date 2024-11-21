@@ -358,7 +358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1: {fileID: 14825548}
   player2: {fileID: 1360974092}
-  projectilePrefab: {fileID: 8563628831176145471, guid: 86c1cf10c2fd26245afd4a1374906d39, type: 3}
+  projectilePrefab: {fileID: 8563628831176145471, guid: 06daba971c0d8cd4cb25963724ea4fb6, type: 3}
   projectileSpeed: 10
   bulletTime: 2
 --- !u!1001 &128447420
@@ -2607,7 +2607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  projectilePrefab: {fileID: 8563628831176145471, guid: 86c1cf10c2fd26245afd4a1374906d39, type: 3}
+  projectilePrefab: {fileID: 8563628831176145471, guid: 06daba971c0d8cd4cb25963724ea4fb6, type: 3}
   projectileSpeed: 12
   reloadTime: 1.5
   reloadSpeedMultiplier: 0.6
@@ -3660,7 +3660,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.0007019}
-  m_SizeDelta: {x: 800, y: 450.47}
+  m_SizeDelta: {x: 800, y: 619.38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2109224186
 MonoBehaviour:
