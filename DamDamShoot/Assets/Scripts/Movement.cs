@@ -77,7 +77,8 @@ public class CapsuleMovement : MonoBehaviour
         {
             Vector3 direction = (hitInfo.point - transform.position).normalized;
 
-            GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            Vector3 newBulletPosition = transform.position + direction;
+            GameObject projectile = Instantiate(projectilePrefab, newBulletPosition, Quaternion.identity);
             Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
             if (projectileRb != null)
             {
@@ -91,7 +92,7 @@ public class CapsuleMovement : MonoBehaviour
                 if (GameManager.instance.isServer && ServerUDP.Instance != null)
                 {
                     Debug.Log("Hola 6");
-                    ServerUDP.Instance.BroadcastShot(transform.position.x, transform.position.y, transform.position.z, direction.x, direction.z);
+                    ServerUDP.Instance.BroadcastShot(newBulletPosition.x, newBulletPosition.y, newBulletPosition.z, direction.x, direction.z);
                 }
                 else if (GameManager.instance.isClient && ClientUDP1.Instance != null)
                 {
@@ -100,7 +101,7 @@ public class CapsuleMovement : MonoBehaviour
                     ClientUDP1 clientUDP1 = FindObjectOfType<ClientUDP1>();
                     if (clientUDP1 != null)
                     {
-                        clientUDP1.SendShot(transform.position.x, transform.position.y, transform.position.z, direction.x, direction.z);
+                        clientUDP1.SendShot(newBulletPosition.x, newBulletPosition.y, newBulletPosition.z, direction.x, direction.z);
                     }
                     else
                     {
@@ -135,7 +136,7 @@ public class CapsuleMovement : MonoBehaviour
 
         speed = originalSpeed;
 
-        ammoCount = 1; // Recargar 1 bala al completar la recarga
+        ammoCount++;
         Debug.Log("Recarga completa. Balas disponibles: " + ammoCount);
 
         isReloading = false;
