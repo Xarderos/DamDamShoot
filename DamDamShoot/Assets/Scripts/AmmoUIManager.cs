@@ -8,11 +8,12 @@ public class AmmoUIManager : MonoBehaviour
 
     private CapsuleMovement player1;
     private CapsuleMovement player2;
-
+    public GameManager GM;
     void Start()
     {
        
         CapsuleMovement[] players = FindObjectsOfType<CapsuleMovement>();
+
         foreach (CapsuleMovement player in players)
         {
             if (player.isP1) player1 = player;
@@ -22,13 +23,13 @@ public class AmmoUIManager : MonoBehaviour
 
     void Update()
     {
-        
+        if(GM.isServer)
         if (player1 != null)
         {
             UpdateBullets(p1BulletContainer, player1.ammoCount);
         }
 
-     
+        if (GM.isClient)
         if (player2 != null)
         {
             UpdateBullets(p2BulletContainer, player2.ammoCount);
