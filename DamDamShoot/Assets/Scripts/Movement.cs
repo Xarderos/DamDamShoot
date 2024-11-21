@@ -17,7 +17,7 @@ public class CapsuleMovement : MonoBehaviour
     private Rigidbody rb;
     private Camera mainCamera;
 
-    private int ammoCount = 1;
+    public int ammoCount = 1;
     private bool isReloading = false;
     private float originalSpeed;
     private bool canDash = true;
