@@ -1,29 +1,35 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AmmoUIManager : MonoBehaviour
 {
     public GameObject bulletIconPrefab; 
     public Transform p1BulletContainer; 
     public Transform p2BulletContainer; 
+
     private CapsuleMovement player1;
     private CapsuleMovement player2;
 
     void Start()
     {
        
-        player1 = FindObjectOfType<CapsuleMovement>(); 
-        player2 = FindObjectOfType<CapsuleMovement>(); 
+        CapsuleMovement[] players = FindObjectsOfType<CapsuleMovement>();
+        foreach (CapsuleMovement player in players)
+        {
+            if (player.isP1) player1 = player;
+            else player2 = player;
+        }
     }
 
     void Update()
     {
-        if (player1 != null && player1.isP1)
+        
+        if (player1 != null)
         {
             UpdateBullets(p1BulletContainer, player1.ammoCount);
         }
 
-        if (player2 != null && !player2.isP1)
+        // Update bullet icons for Player 2
+        if (player2 != null)
         {
             UpdateBullets(p2BulletContainer, player2.ammoCount);
         }
@@ -44,4 +50,5 @@ public class AmmoUIManager : MonoBehaviour
         }
     }
 }
+
 

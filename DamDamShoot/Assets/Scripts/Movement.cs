@@ -23,6 +23,8 @@ public class CapsuleMovement : MonoBehaviour
     private bool canDash = true;
     private Coroutine reloadCoroutine = null;
 
+    public ReloadUIController reloadUIController;
+
     void Start()
     {
         ammoCount = 1;
@@ -121,9 +123,15 @@ public class CapsuleMovement : MonoBehaviour
 
     void StartReload()
     {
-        if (isReloading) return;
+        if (isReloading) return; 
 
-        StartCoroutine(ReloadCoroutine());
+       
+        if (reloadUIController != null)
+        {
+            reloadUIController.StartReloadAnimation(isP1);
+        }
+
+        StartCoroutine(ReloadCoroutine()); 
     }
 
     System.Collections.IEnumerator ReloadCoroutine()
