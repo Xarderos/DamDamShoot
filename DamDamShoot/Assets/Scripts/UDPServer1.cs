@@ -31,7 +31,6 @@ public class ServerUDP : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            // Inicialización adicional si es necesario
         }
         else
         {
@@ -113,8 +112,7 @@ public class ServerUDP : MonoBehaviour
                         float.TryParse(positionData[4], out float dx) &&
                         float.TryParse(positionData[5], out float dz))
                     {
-                        // Aquí el servidor recibe el disparo y lo transmite a todos los jugadores
-                        //EnqueueMainThreadAction(() => BroadcastShot(px, py, pz, dx, dz));
+
                         HandleShotOnServer(px, py, pz, dx, dz);
 
                     }
@@ -126,7 +124,7 @@ public class ServerUDP : MonoBehaviour
             }
             catch (SocketException ex)
             {
-                if (ex.SocketErrorCode == SocketError.ConnectionReset)  // Verificamos si fue una desconexión
+                if (ex.SocketErrorCode == SocketError.ConnectionReset)
                 {
                     Debug.LogWarning("La conexión se ha cerrado por el cliente.");
                 }
@@ -191,14 +189,6 @@ public class ServerUDP : MonoBehaviour
             });
         }
     }
-
-    //private void EnqueueMainThreadAction(Action action)
-    //{
-    //    lock (mainThreadActions)
-    //    {
-    //        mainThreadActions.Enqueue(action);
-    //    }
-    //}
     public void BroadcastShot(float px, float py, float pz, float dx, float dz)
     {
         Debug.Log("Broadcast");
