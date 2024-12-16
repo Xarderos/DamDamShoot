@@ -30,6 +30,9 @@ public class ClientUDP1 : MonoBehaviour
     bool positionUpdatedP1;
     bool isRunning = true;
 
+
+    HostJoinManager script;
+
     void Awake()
     {
         if (Instance == null)
@@ -46,10 +49,13 @@ public class ClientUDP1 : MonoBehaviour
     void Start()
     {
         serverIP = "127.0.0.1";
-        if (!string.IsNullOrEmpty(ipInputField.text))
+
+        script = GameObject.Find("DontDestroy").GetComponent<HostJoinManager>();
+        if (!string.IsNullOrEmpty(script.ip))
         {
-            serverIP = ipInputField.text;
+            serverIP = script.ip;
         }
+
         receivedPositionP1 = new Vector3(0, 0, 0);
         playerPosition = player2.transform.position;
 
@@ -204,5 +210,31 @@ public class ClientUDP1 : MonoBehaviour
         {
             Debug.LogError("Error sending shot data: " + e.Message);
         }
+    }
+
+    void OnDestroy()
+    {
+        StopClient();
+    }
+
+    void StopClient()
+    {
+        isRunning = false;
+
+        if (socket != null)
+        {
+            try
+            {
+                socket.Shutdown(SocketShutdown.Both); // Apagar el envío y la recepción
+            }
+            catch (SocketException)
+            {
+                // Ignorar si el socket ya está cerrado
+            }
+            socket.Close(); // Cerrar el socket
+            socket = null;
+        }
+
+        Debug.Log("Client stopped and socket closed.");
     }
 }

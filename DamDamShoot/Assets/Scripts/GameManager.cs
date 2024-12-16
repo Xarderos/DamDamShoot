@@ -6,13 +6,15 @@ public class GameManager : MonoBehaviour
 
     public bool isServer = false;
     public bool isClient = false;
-    public Canvas canvas;
 
     public GameObject playerOne;
     public GameObject playerTwo;
 
     public GameObject Server;
     public GameObject Client;
+
+
+    HostJoinManager script;
 
     void Awake()
     {
@@ -31,6 +33,19 @@ public class GameManager : MonoBehaviour
         isClient = false;
 
         SetPlayerMovement(false, false);
+
+        script = GameObject.Find("DontDestroy").GetComponent<HostJoinManager>();
+        if (script)
+        {
+            if (script.isServer)
+            {
+                setServer();
+            }
+            if (script.isClient)
+            {
+                setClient();
+            }
+        }
     }
 
     public void setServer()
@@ -49,13 +64,6 @@ public class GameManager : MonoBehaviour
         SetPlayerMovement(false, true);
     }
 
-    public void closeCanvas()
-    {
-        if (canvas)
-        {
-            canvas.gameObject.SetActive(false);
-        }
-    }
 
     private void SetPlayerMovement(bool enablePlayerOne, bool enablePlayerTwo)
     {

@@ -201,4 +201,38 @@ public class ServerUDP : MonoBehaviour
         }
     }
 
+    void OnDestroy()
+    {
+        StopServer();
+    }
+
+    public void StopServer()
+    {
+        isSending = false;
+
+        // Cerrar el hilo de envío si está activo
+        if (sendThread != null && sendThread.IsAlive)
+        {
+            sendThread.Abort();
+            sendThread = null;
+        }
+
+        // Cerrar el socket si está activo
+        if (socket != null)
+        {
+            try
+            {
+                socket.Shutdown(SocketShutdown.Both); // Apagar la comunicación
+            }
+            catch (SocketException)
+            {
+                // Ignorar si el socket ya está cerrado
+            }
+            socket.Close(); // Cerrar el socket
+            socket = null;
+        }
+
+        Debug.Log("Server stopped and socket closed.");
+    }
+
 }
