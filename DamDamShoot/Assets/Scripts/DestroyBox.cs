@@ -2,44 +2,64 @@ using UnityEngine;
 
 public class DestroyBox : MonoBehaviour
 {
-    public AudioClip breakSound;           // Assign the sound in the Inspector
-    public GameObject particlePrefab;      // Assign the particle prefab in the Inspector
+    public AudioClip breakSound;           
+    public GameObject particlePrefab;      
 
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log($"Collision detected with: {collision.gameObject.name}");
 
-        if (collision.gameObject.CompareTag("BulletP1") || collision.gameObject.CompareTag("BulletP2"))
+       
+        if (collision.gameObject.CompareTag("BulletP1"))
         {
-            Debug.Log("Collision with a bullet! Destroying box...");
-
-            // Play the breaking sound
-            if (breakSound != null)
+            if (CompareTag("Box2"))
             {
-                AudioSource.PlayClipAtPoint(breakSound, transform.position);
+                HandleDestruction(collision.gameObject); 
             }
-
-            // Spawn particle effect
-            SpawnParticles();
-
-            // Destroy the box
-            Destroy(gameObject);
-
-            // Destroy the bullet
-            Destroy(collision.gameObject);
+            else if (CompareTag("Box1"))
+            {
+                DestroyBulletOnly(collision.gameObject); 
+            }
+        }
+        
+        else if (collision.gameObject.CompareTag("BulletP2"))
+        {
+            if (CompareTag("Box1"))
+            {
+                HandleDestruction(collision.gameObject); 
+            }
+            else if (CompareTag("Box2"))
+            {
+                DestroyBulletOnly(collision.gameObject); 
+            }
         }
     }
 
-    private void SpawnParticles()
+    private void HandleDestruction(GameObject bullet)
     {
+        Debug.Log("Destruction conditions met. Destroying box...");
+
+      
+        if (breakSound != null)
+        {
+            AudioSource.PlayClipAtPoint(breakSound, transform.position);
+        }
+
         if (particlePrefab != null)
         {
-            // Instantiate the particle system at the box's position
             Instantiate(particlePrefab, transform.position, Quaternion.identity);
         }
-        else
-        {
-            Debug.LogWarning("Particle prefab is not assigned!");
-        }
+
+      
+        Destroy(gameObject);
+
+       
+        Destroy(bullet);
+    }
+
+    private void DestroyBulletOnly(GameObject bullet)
+    {
+        Debug.Log("Bullet hit a non-destroyable box. Destroying bullet only.");
+        Destroy(bullet);
     }
 }
