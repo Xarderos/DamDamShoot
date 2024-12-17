@@ -6,9 +6,14 @@ using System.Threading;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class ServerUDP : MonoBehaviour
 {
+
+    public GameObject waitingCanvas; // Asigna el Canvas en Unity
+    public TextMeshProUGUI countdownText;       // Asigna el texto de cuenta atrás
+    private bool clientConnected = false;
 
     Socket socket;
     public GameObject player1;
@@ -25,6 +30,7 @@ public class ServerUDP : MonoBehaviour
     public float bulletTime = 2f;
     public static ServerUDP Instance { get; private set; }
     private readonly Queue<System.Action> mainThreadActions = new Queue<System.Action>();
+    bool activateshield = false;
 
     void Awake()
     {
@@ -62,6 +68,13 @@ public class ServerUDP : MonoBehaviour
 
     void Update()
     {
+
+        //// Si el cliente aún no está conectado, bloquea el movimiento del jugador 1
+        //if (!clientConnected)
+        //{
+        //    player1.GetComponent<CapsuleMovement>().canMove = false;
+        //}
+
         playerPosition = player1.transform.position;
         if (positionUpdatedP2)
         {
@@ -74,6 +87,11 @@ public class ServerUDP : MonoBehaviour
             {
                 mainThreadActions.Dequeue().Invoke();
             }
+        }
+        if (activateshield)
+        {
+            activateshield = false;
+            ActivateShield();
         }
     }
 
@@ -92,6 +110,24 @@ public class ServerUDP : MonoBehaviour
             {
                 int recv = socket.ReceiveFrom(data, ref remote);
                 string message = Encoding.ASCII.GetString(data, 0, recv);
+
+                if (!clientConnected)
+                {
+                    clientConnected = true; // Cliente conectado
+                    clientEndpoint = remote;
+
+                    // Activar cuenta atrás
+                    lock (mainThreadActions)
+                    {
+                        mainThreadActions.Enqueue(() =>
+                        {
+                            waitingCanvas.SetActive(true); // Mostrar el canvas
+                            player1.GetComponent<CapsuleMovement>().canMove = false; // Bloquear movimiento
+                            StartCountdown(); // Iniciar la cuenta atrás
+                        });
+                    }
+                }
+                
 
                 string[] positionData = message.Split('|');
 
@@ -117,6 +153,10 @@ public class ServerUDP : MonoBehaviour
 
                     }
                 }
+                else if (message == "SHIELD")
+                {
+                    activateshield = true;
+                }
                 lock (this)
                 {
                     clientEndpoint = remote;
@@ -133,10 +173,7 @@ public class ServerUDP : MonoBehaviour
                     Debug.LogError("Error de socket: " + ex.Message);
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.LogError("Excepción general: " + ex.Message);
-            }
+
         }
     }
 
@@ -200,5 +237,83 @@ public class ServerUDP : MonoBehaviour
             socket.SendTo(data, clientEndpoint);
         }
     }
+    public void SendShield()
+    {
 
+        Debug.Log("SendShield");
+        string message = $"SHIELD";
+        byte[] data = Encoding.UTF8.GetBytes(message);
+
+        if (clientEndpoint != null)
+        {
+            socket.SendTo(data, clientEndpoint);
+        }
+    }
+    void OnDestroy()
+    {
+        StopServer();
+    }
+
+    public void StopServer()
+    {
+        isSending = false;
+
+        // Cerrar el hilo de envío si está activo
+        if (sendThread != null && sendThread.IsAlive)
+        {
+            sendThread.Abort();
+            sendThread = null;
+        }
+
+        // Cerrar el socket si está activo
+        if (socket != null)
+        {
+            try
+            {
+                socket.Shutdown(SocketShutdown.Both); // Apagar la comunicación
+            }
+            catch (SocketException)
+            {
+                // Ignorar si el socket ya está cerrado
+            }
+            socket.Close(); // Cerrar el socket
+            socket = null;
+        }
+
+        Debug.Log("Server stopped and socket closed.");
+    }
+
+    void ActivateShield()
+    {
+        player2.GetComponent<CapsuleMovement>().ActivateShield();
+    }
+
+
+    //SERGIO
+    void StartCountdown()
+    {
+        StartCoroutine(CountdownCoroutine());
+    }
+
+    IEnumerator CountdownCoroutine()
+    {
+        waitingCanvas.SetActive(true);
+        int countdown = 5; // Tiempo de cuenta atrás en segundos
+
+        while (countdown > 0)
+        {
+            countdownText.text = countdown.ToString();
+            yield return new WaitForSeconds(1);
+            countdown--;
+        }
+
+        // Desactivar pantalla de espera y permitir el movimiento
+        waitingCanvas.SetActive(false);
+        player1.GetComponent<CapsuleMovement>().canMove = true;
+
+        // Enviar señal al cliente para que también desbloquee su movimiento
+        string message = "START_GAME";
+        byte[] data = Encoding.UTF8.GetBytes(message);
+        socket.SendTo(data, clientEndpoint);
+    }
 }

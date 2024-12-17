@@ -1,9 +1,14 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CapsuleMovement : MonoBehaviour
 {
+    //SERGIO
+    public bool canMove = true;
+    //
+
     public float speed = 5f;
     public GameObject projectilePrefab;
     public float projectileSpeed = 10f;
@@ -14,6 +19,7 @@ public class CapsuleMovement : MonoBehaviour
     public float dashCooldown = 5f;
     public float bulletTime = 2f;
     public bool isP1 = true;
+
     private Rigidbody rb;
     private Camera mainCamera;
 
@@ -23,6 +29,13 @@ public class CapsuleMovement : MonoBehaviour
     private bool canDash = true;
     private Coroutine reloadCoroutine = null;
 
+    // Escudo
+    public float shieldDuration = 0.75f;
+    public float shieldCooldown = 4f;
+    private bool canUseShield = true;
+    private bool isShieldActive = false;
+    public GameObject shieldVisual;
+
     public ReloadUIController reloadUIController;
 
     void Start()
@@ -30,24 +43,27 @@ public class CapsuleMovement : MonoBehaviour
         ammoCount = 1;
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
-
         mainCamera = Camera.main;
-
         originalSpeed = speed;
+
+        if (shieldVisual != null)
+            shieldVisual.SetActive(false);
     }
 
     void FixedUpdate()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
-
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical) * speed;
-
         rb.velocity = movement;
     }
 
     void Update()
     {
+        //SERGIO
+        if (!canMove) return; // Bloquea el movimiento si no está permitido
+        //
+
         if (Input.GetMouseButtonDown(0) && ammoCount > 0)
         {
             ShootProjectile();
@@ -61,6 +77,22 @@ public class CapsuleMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && canDash)
         {
             Dash();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q) && canUseShield)
+        {
+            ActivateShield();
+            if (GameManager.instance != null)
+            {
+                if (GameManager.instance.isServer && ServerUDP.Instance != null)
+                {
+                    ServerUDP.Instance.SendShield();
+                }
+                else if (GameManager.instance.isClient && ClientUDP1.Instance != null)
+                {
+                    ClientUDP1.Instance.SendShield();
+                }
+            }
         }
     }
 
@@ -79,7 +111,6 @@ public class CapsuleMovement : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hitInfo))
         {
             Vector3 direction = (hitInfo.point - transform.position).normalized;
-
             Vector3 newBulletPosition = transform.position + direction;
             GameObject projectile = Instantiate(projectilePrefab, newBulletPosition, Quaternion.identity);
             Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
@@ -90,64 +121,68 @@ public class CapsuleMovement : MonoBehaviour
 
             if (GameManager.instance != null)
             {
-                Debug.Log("Hola 2");
-
                 if (GameManager.instance.isServer && ServerUDP.Instance != null)
                 {
-                    Debug.Log("Hola 6");
                     ServerUDP.Instance.BroadcastShot(newBulletPosition.x, newBulletPosition.y, newBulletPosition.z, direction.x, direction.z);
                 }
                 else if (GameManager.instance.isClient && ClientUDP1.Instance != null)
                 {
-                    Debug.Log("Hola");
-
-                    ClientUDP1 clientUDP1 = FindObjectOfType<ClientUDP1>();
-                    if (clientUDP1 != null)
-                    {
-                        clientUDP1.SendShot(newBulletPosition.x, newBulletPosition.y, newBulletPosition.z, direction.x, direction.z);
-                    }
-                    else
-                    {
-                        Debug.LogError("ClientUDP1 not found in the scene!");
-                    }
+                    ClientUDP1.Instance.SendShot(newBulletPosition.x, newBulletPosition.y, newBulletPosition.z, direction.x, direction.z);
                 }
             }
-            else
-            {
-                Debug.LogError("GameManager instance is null.");
-            }
-
             Destroy(projectile, bulletTime);
         }
     }
 
+    public void ActivateShield()
+    {
+        Debug.Log("Escudo Activado");
+        isShieldActive = true;
+        canUseShield = false;
+
+        if (shieldVisual != null)
+            shieldVisual.SetActive(true);
+
+        StartCoroutine(ShieldDurationCoroutine());
+        StartCoroutine(ShieldCooldownCoroutine());
+
+    }
+
+    IEnumerator ShieldDurationCoroutine()
+    {
+        yield return new WaitForSeconds(shieldDuration);
+        isShieldActive = false;
+        if (shieldVisual != null)
+            shieldVisual.SetActive(false);
+        Debug.Log("Escudo Desactivado");
+    }
+
+    IEnumerator ShieldCooldownCoroutine()
+    {
+        yield return new WaitForSeconds(shieldCooldown);
+        canUseShield = true;
+        Debug.Log("Escudo Listo");
+    }
+
     void StartReload()
     {
-        if (isReloading) return; 
-
-       
+        if (isReloading) return;
         if (reloadUIController != null)
         {
             reloadUIController.StartReloadAnimation(isP1);
         }
-
-        StartCoroutine(ReloadCoroutine()); 
+        StartCoroutine(ReloadCoroutine());
     }
 
-    System.Collections.IEnumerator ReloadCoroutine()
+    IEnumerator ReloadCoroutine()
     {
         Debug.Log("Recargando...");
         isReloading = true;
-
         speed *= reloadSpeedMultiplier;
-
         yield return new WaitForSeconds(reloadTime);
-
         speed = originalSpeed;
-
         ammoCount++;
         Debug.Log("Recarga completa. Balas disponibles: " + ammoCount);
-
         isReloading = false;
     }
 
@@ -157,41 +192,36 @@ public class CapsuleMovement : MonoBehaviour
         {
             StopCoroutine(reloadCoroutine);
             reloadCoroutine = null;
-
             speed = originalSpeed;
             isReloading = false;
-            Debug.Log("Recarga interrumpida");
         }
-
         StartCoroutine(DashCoroutine());
     }
 
-    System.Collections.IEnumerator DashCoroutine()
+    IEnumerator DashCoroutine()
     {
         Debug.Log("Dash iniciado");
-
         canDash = false;
-
         speed *= dashSpeedMultiplier;
-
         yield return new WaitForSeconds(dashDuration);
-
         speed = originalSpeed;
-
         Debug.Log("Dash terminado");
-
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
-        Debug.Log("Dash listo para usarse nuevamente");
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(isP1 && collision.transform.tag == "BulletP2")
+        if (isShieldActive && (collision.transform.CompareTag("BulletP2") || collision.transform.CompareTag("BulletP1")))
+        {
+            Debug.Log("Bala destruida por el escudo");
+            collision.gameObject.SetActive(false);
+        }
+        else if (isP1 && collision.transform.CompareTag("BulletP2"))
         {
             SceneManager.LoadScene("P2Win");
         }
-        if (!isP1 && collision.transform.tag == "BulletP1")
+        else if (!isP1 && collision.transform.CompareTag("BulletP1"))
         {
             SceneManager.LoadScene("P1Win");
         }

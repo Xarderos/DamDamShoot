@@ -6,10 +6,18 @@ using System.Threading;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using TMPro;
 
 
 public class ClientUDP1 : MonoBehaviour
 {
+    //SERGIO
+    public GameObject waitingCanvas; // Asigna el Canvas en Unity
+    public TextMeshProUGUI countdownText;       // Asigna el texto de cuenta atrás
+    private bool gameStarted = false;
+    //
+
     Socket socket;
     string serverIP;
     public InputField ipInputField;
@@ -29,6 +37,9 @@ public class ClientUDP1 : MonoBehaviour
 
     bool positionUpdatedP1;
     bool isRunning = true;
+    bool activateshield = false;
+
+    HostJoinManager script;
 
     void Awake()
     {
@@ -46,10 +57,13 @@ public class ClientUDP1 : MonoBehaviour
     void Start()
     {
         serverIP = "127.0.0.1";
-        if (!string.IsNullOrEmpty(ipInputField.text))
+
+        script = GameObject.Find("DontDestroy").GetComponent<HostJoinManager>();
+        if (!string.IsNullOrEmpty(script.ip))
         {
-            serverIP = ipInputField.text;
+            serverIP = script.ip;
         }
+
         receivedPositionP1 = new Vector3(0, 0, 0);
         playerPosition = player2.transform.position;
 
@@ -58,6 +72,12 @@ public class ClientUDP1 : MonoBehaviour
 
     void Update()
     {
+        // Si el juego aún no ha comenzado, bloquear el movimiento del jugador 2
+        if (!gameStarted)
+        {
+            player2.GetComponent<CapsuleMovement>().canMove = false;
+        }
+
         playerPosition = player2.transform.position;
 
         if (positionUpdatedP1)
@@ -72,6 +92,12 @@ public class ClientUDP1 : MonoBehaviour
             {
                 mainThreadActions.Dequeue().Invoke();
             }
+        }
+
+        if (activateshield)
+        {
+            activateshield = false;
+            ActivateShield();
         }
     }
 
@@ -100,7 +126,7 @@ public class ClientUDP1 : MonoBehaviour
             {
                 SendPosition(ipep);
 
-                ReceivePosition();
+                ReceiveData();
             }
         }
         catch (SocketException e)
@@ -127,7 +153,7 @@ public class ClientUDP1 : MonoBehaviour
         }
     }
 
-    void ReceivePosition()
+    void ReceiveData()
     {
         try
         {
@@ -155,6 +181,17 @@ public class ClientUDP1 : MonoBehaviour
                     float.TryParse(parts[5], out float dz))
                 {
                     HandleShot(px, py, pz, dx, dz);
+                }
+            }
+            else if (message == "SHIELD")
+            {
+                activateshield = true;
+            }
+            else if (message == "START_GAME")
+            {
+                lock (mainThreadActions)
+                {
+                    mainThreadActions.Enqueue(() => StartCountdown());
                 }
             }
         }
@@ -204,5 +241,77 @@ public class ClientUDP1 : MonoBehaviour
         {
             Debug.LogError("Error sending shot data: " + e.Message);
         }
+    }
+
+    public void SendShield()
+    {
+        Debug.Log("SendShield");
+
+        string message = $"SHIELD";
+        byte[] data = Encoding.ASCII.GetBytes(message);
+
+        try
+        {
+            IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(serverIP), 9050);
+            socket.SendTo(data, ipep);
+        }
+        catch (SocketException e)
+        {
+            Debug.LogError("Error sending shot data: " + e.Message);
+        }
+    }
+
+    void OnDestroy()
+    {
+        StopClient();
+    }
+
+    void StopClient()
+    {
+        isRunning = false;
+
+        if (socket != null)
+        {
+            try
+            {
+                socket.Shutdown(SocketShutdown.Both); // Apagar el envío y la recepción
+            }
+            catch (SocketException)
+            {
+                // Ignorar si el socket ya está cerrado
+            }
+            socket.Close(); // Cerrar el socket
+            socket = null;
+        }
+
+        Debug.Log("Client stopped and socket closed.");
+    }
+
+    void ActivateShield()
+    {
+        player1.GetComponent<CapsuleMovement>().ActivateShield();
+    }
+    //SERGIO
+    void StartCountdown()
+    {
+        StartCoroutine(CountdownCoroutine());
+    }
+
+    IEnumerator CountdownCoroutine()
+    {
+        waitingCanvas.SetActive(true);
+        int countdown = 5; // Tiempo de cuenta atrás en segundos
+
+        while (countdown > 0)
+        {
+            countdownText.text = countdown.ToString();
+            yield return new WaitForSeconds(1);
+            countdown--;
+        }
+
+        // Desactivar pantalla de espera y permitir el movimiento
+        waitingCanvas.SetActive(false);
+        player2.GetComponent<CapsuleMovement>().canMove = true;
+        gameStarted = true;
     }
 }
