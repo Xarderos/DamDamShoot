@@ -6768,43 +6768,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1253323119}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1253323118}
   m_SourcePrefab: {fileID: 100100000, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
 --- !u!1 &1253323117 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
   m_PrefabInstance: {fileID: 1253323116}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1253323118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1253323117}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f47a47755b6b7244a811e0ad3ba3757, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canMove: 1
-  speed: 5
-  projectilePrefab: {fileID: 8563628831176145471, guid: 86c1cf10c2fd26245afd4a1374906d39, type: 3}
-  projectileSpeed: 12
-  reloadTime: 1.5
-  reloadSpeedMultiplier: 0.6
-  dashSpeedMultiplier: 3
-  dashDuration: 0.2
-  dashCooldown: 4
-  bulletTime: 2
-  isP1: 1
-  ammoCount: 1
-  shieldDuration: 0.75
-  shieldCooldown: 4
-  shieldVisual: {fileID: 1400200267}
-  reloadUIController: {fileID: 1902691475}
 --- !u!54 &1253323119
 Rigidbody:
   m_ObjectHideFlags: 0
