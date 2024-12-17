@@ -6,10 +6,18 @@ using System.Threading;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using TMPro;
 
 
 public class ClientUDP1 : MonoBehaviour
 {
+    //SERGIO
+    public GameObject waitingCanvas; // Asigna el Canvas en Unity
+    public TextMeshProUGUI countdownText;       // Asigna el texto de cuenta atrás
+    private bool gameStarted = false;
+    //
+
     Socket socket;
     string serverIP;
     public InputField ipInputField;
@@ -64,6 +72,12 @@ public class ClientUDP1 : MonoBehaviour
 
     void Update()
     {
+        // Si el juego aún no ha comenzado, bloquear el movimiento del jugador 2
+        if (!gameStarted)
+        {
+            player2.GetComponent<CapsuleMovement>().canMove = false;
+        }
+
         playerPosition = player2.transform.position;
 
         if (positionUpdatedP1)
@@ -173,6 +187,13 @@ public class ClientUDP1 : MonoBehaviour
             {
                 activateshield = true;
             }
+            else if (message == "START_GAME")
+            {
+                lock (mainThreadActions)
+                {
+                    mainThreadActions.Enqueue(() => StartCountdown());
+                }
+            }
         }
         catch (SocketException e)
         {
@@ -269,5 +290,28 @@ public class ClientUDP1 : MonoBehaviour
     void ActivateShield()
     {
         player1.GetComponent<CapsuleMovement>().ActivateShield();
+    }
+    //SERGIO
+    void StartCountdown()
+    {
+        StartCoroutine(CountdownCoroutine());
+    }
+
+    IEnumerator CountdownCoroutine()
+    {
+        waitingCanvas.SetActive(true);
+        int countdown = 5; // Tiempo de cuenta atrás en segundos
+
+        while (countdown > 0)
+        {
+            countdownText.text = countdown.ToString();
+            yield return new WaitForSeconds(1);
+            countdown--;
+        }
+
+        // Desactivar pantalla de espera y permitir el movimiento
+        waitingCanvas.SetActive(false);
+        player2.GetComponent<CapsuleMovement>().canMove = true;
+        gameStarted = true;
     }
 }

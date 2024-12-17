@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody))]
 public class CapsuleMovement : MonoBehaviour
 {
+    //SERGIO
+    public bool canMove = true;
+    //
+
     public float speed = 5f;
     public GameObject projectilePrefab;
     public float projectileSpeed = 10f;
@@ -56,6 +60,10 @@ public class CapsuleMovement : MonoBehaviour
 
     void Update()
     {
+        //SERGIO
+        if (!canMove) return; // Bloquea el movimiento si no está permitido
+        //
+
         if (Input.GetMouseButtonDown(0) && ammoCount > 0)
         {
             ShootProjectile();

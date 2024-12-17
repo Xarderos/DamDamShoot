@@ -6,9 +6,14 @@ using System.Threading;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class ServerUDP : MonoBehaviour
 {
+
+    public GameObject waitingCanvas; // Asigna el Canvas en Unity
+    public TextMeshProUGUI countdownText;       // Asigna el texto de cuenta atrás
+    private bool clientConnected = false;
 
     Socket socket;
     public GameObject player1;
@@ -63,6 +68,13 @@ public class ServerUDP : MonoBehaviour
 
     void Update()
     {
+
+        //// Si el cliente aún no está conectado, bloquea el movimiento del jugador 1
+        //if (!clientConnected)
+        //{
+        //    player1.GetComponent<CapsuleMovement>().canMove = false;
+        //}
+
         playerPosition = player1.transform.position;
         if (positionUpdatedP2)
         {
@@ -98,6 +110,24 @@ public class ServerUDP : MonoBehaviour
             {
                 int recv = socket.ReceiveFrom(data, ref remote);
                 string message = Encoding.ASCII.GetString(data, 0, recv);
+
+                if (!clientConnected)
+                {
+                    clientConnected = true; // Cliente conectado
+                    clientEndpoint = remote;
+
+                    // Activar cuenta atrás
+                    lock (mainThreadActions)
+                    {
+                        mainThreadActions.Enqueue(() =>
+                        {
+                            waitingCanvas.SetActive(true); // Mostrar el canvas
+                            player1.GetComponent<CapsuleMovement>().canMove = false; // Bloquear movimiento
+                            StartCountdown(); // Iniciar la cuenta atrás
+                        });
+                    }
+                }
+                
 
                 string[] positionData = message.Split('|');
 
@@ -258,4 +288,32 @@ public class ServerUDP : MonoBehaviour
         player2.GetComponent<CapsuleMovement>().ActivateShield();
     }
 
+
+    //SERGIO
+    void StartCountdown()
+    {
+        StartCoroutine(CountdownCoroutine());
+    }
+
+    IEnumerator CountdownCoroutine()
+    {
+        waitingCanvas.SetActive(true);
+        int countdown = 5; // Tiempo de cuenta atrás en segundos
+
+        while (countdown > 0)
+        {
+            countdownText.text = countdown.ToString();
+            yield return new WaitForSeconds(1);
+            countdown--;
+        }
+
+        // Desactivar pantalla de espera y permitir el movimiento
+        waitingCanvas.SetActive(false);
+        player1.GetComponent<CapsuleMovement>().canMove = true;
+
+        // Enviar señal al cliente para que también desbloquee su movimiento
+        string message = "START_GAME";
+        byte[] data = Encoding.UTF8.GetBytes(message);
+        socket.SendTo(data, clientEndpoint);
+    }
 }
