@@ -2,14 +2,8 @@ using UnityEngine;
 
 public class DestroyBox : MonoBehaviour
 {
-    public AudioClip breakSound; // Assign the sound in the Inspector
-    private AudioSource audioSource;
-
-    private void Start()
-    {
-        // Get the AudioSource component
-        audioSource = GetComponent<AudioSource>();
-    }
+    public AudioClip breakSound;           // Assign the sound in the Inspector
+    public GameObject particlePrefab;      // Assign the particle prefab in the Inspector
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -25,19 +19,27 @@ public class DestroyBox : MonoBehaviour
                 AudioSource.PlayClipAtPoint(breakSound, transform.position);
             }
 
-            // Spawn particle effect (to be added below)
+            // Spawn particle effect
             SpawnParticles();
 
             // Destroy the box
             Destroy(gameObject);
 
-            // Destroy the bullet as well
+            // Destroy the bullet
             Destroy(collision.gameObject);
         }
     }
 
     private void SpawnParticles()
     {
-        // Placeholder: Add particle spawning code here
+        if (particlePrefab != null)
+        {
+            // Instantiate the particle system at the box's position
+            Instantiate(particlePrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogWarning("Particle prefab is not assigned!");
+        }
     }
 }
