@@ -25,6 +25,7 @@ public class ServerUDP : MonoBehaviour
     public float bulletTime = 2f;
     public static ServerUDP Instance { get; private set; }
     private readonly Queue<System.Action> mainThreadActions = new Queue<System.Action>();
+    bool activateshield = false;
 
     void Awake()
     {
@@ -75,6 +76,11 @@ public class ServerUDP : MonoBehaviour
                 mainThreadActions.Dequeue().Invoke();
             }
         }
+        if (activateshield)
+        {
+            activateshield = false;
+            ActivateShield();
+        }
     }
 
     void Receive()
@@ -117,6 +123,10 @@ public class ServerUDP : MonoBehaviour
 
                     }
                 }
+                else if (message == "SHIELD")
+                {
+                    activateshield = true;
+                }
                 lock (this)
                 {
                     clientEndpoint = remote;
@@ -133,10 +143,7 @@ public class ServerUDP : MonoBehaviour
                     Debug.LogError("Error de socket: " + ex.Message);
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.LogError("Excepción general: " + ex.Message);
-            }
+
         }
     }
 
@@ -200,7 +207,18 @@ public class ServerUDP : MonoBehaviour
             socket.SendTo(data, clientEndpoint);
         }
     }
+    public void SendShield()
+    {
 
+        Debug.Log("SendShield");
+        string message = $"SHIELD";
+        byte[] data = Encoding.UTF8.GetBytes(message);
+
+        if (clientEndpoint != null)
+        {
+            socket.SendTo(data, clientEndpoint);
+        }
+    }
     void OnDestroy()
     {
         StopServer();
@@ -233,6 +251,11 @@ public class ServerUDP : MonoBehaviour
         }
 
         Debug.Log("Server stopped and socket closed.");
+    }
+
+    void ActivateShield()
+    {
+        player2.GetComponent<CapsuleMovement>().ActivateShield();
     }
 
 }

@@ -29,7 +29,7 @@ public class ClientUDP1 : MonoBehaviour
 
     bool positionUpdatedP1;
     bool isRunning = true;
-
+    bool activateshield = false;
 
     HostJoinManager script;
 
@@ -79,6 +79,12 @@ public class ClientUDP1 : MonoBehaviour
                 mainThreadActions.Dequeue().Invoke();
             }
         }
+
+        if (activateshield)
+        {
+            activateshield = false;
+            ActivateShield();
+        }
     }
 
     void StartClient()
@@ -106,7 +112,7 @@ public class ClientUDP1 : MonoBehaviour
             {
                 SendPosition(ipep);
 
-                ReceivePosition();
+                ReceiveData();
             }
         }
         catch (SocketException e)
@@ -133,7 +139,7 @@ public class ClientUDP1 : MonoBehaviour
         }
     }
 
-    void ReceivePosition()
+    void ReceiveData()
     {
         try
         {
@@ -162,6 +168,10 @@ public class ClientUDP1 : MonoBehaviour
                 {
                     HandleShot(px, py, pz, dx, dz);
                 }
+            }
+            else if (message == "SHIELD")
+            {
+                activateshield = true;
             }
         }
         catch (SocketException e)
@@ -212,6 +222,24 @@ public class ClientUDP1 : MonoBehaviour
         }
     }
 
+    public void SendShield()
+    {
+        Debug.Log("SendShield");
+
+        string message = $"SHIELD";
+        byte[] data = Encoding.ASCII.GetBytes(message);
+
+        try
+        {
+            IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(serverIP), 9050);
+            socket.SendTo(data, ipep);
+        }
+        catch (SocketException e)
+        {
+            Debug.LogError("Error sending shot data: " + e.Message);
+        }
+    }
+
     void OnDestroy()
     {
         StopClient();
@@ -236,5 +264,10 @@ public class ClientUDP1 : MonoBehaviour
         }
 
         Debug.Log("Client stopped and socket closed.");
+    }
+
+    void ActivateShield()
+    {
+        player1.GetComponent<CapsuleMovement>().ActivateShield();
     }
 }
