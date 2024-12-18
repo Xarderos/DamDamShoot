@@ -238,87 +238,6 @@ MonoBehaviour:
   _PostProcessShaderAccurate: {fileID: 4800000, guid: 2ebed186567d3c244a87538744a62920, type: 3}
   _PixelationShader: {fileID: 4800000, guid: f2da0e2a14a532548b5db043244b3df1, type: 3}
   _InterlacingShader: {fileID: 4800000, guid: 03ebd34214b41ef459d7ee6753b062be, type: 3}
---- !u!1001 &51347332
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.5519322
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.00000011920929
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 9.003414
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.0016523905
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.9999987
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -180.189
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -7918335002988649766, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 32d095bc11579824c962cd4da036c9cd, type: 2}
-    - target: {fileID: -6093592463355912122, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 32d095bc11579824c962cd4da036c9cd, type: 2}
-    - target: {fileID: -4683669308469848369, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 32d095bc11579824c962cd4da036c9cd, type: 2}
-    - target: {fileID: -1461304994638716399, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 32d095bc11579824c962cd4da036c9cd, type: 2}
-    - target: {fileID: -678588488315902003, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 32d095bc11579824c962cd4da036c9cd, type: 2}
-    - target: {fileID: 919132149155446097, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_Name
-      value: PS1 Character Samurai Final
-      objectReference: {fileID: 0}
-    - target: {fileID: 8442510506162454399, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 32d095bc11579824c962cd4da036c9cd, type: 2}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 72d284cacb86ced44bb3a818552b4d96, type: 3}
 --- !u!1001 &331553782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -629,6 +548,66 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1001 &798051898
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8231934353774510228, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
+      propertyPath: m_Name
+      value: PS1 Samurai
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752292887768652334, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752292887768652334, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00000023841858
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752292887768652334, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752292887768652334, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9985442
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752292887768652334, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752292887768652334, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.053940143
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752292887768652334, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752292887768652334, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752292887768652334, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 6.184
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752292887768652334, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8231934353774510228, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1920349006}
+  m_SourcePrefab: {fileID: 100100000, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
 --- !u!1 &868829583 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8563628831176145471, guid: 86c1cf10c2fd26245afd4a1374906d39, type: 3}
@@ -889,95 +868,23 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 513279685}
   m_SourcePrefab: {fileID: 100100000, guid: 3b3d54513449c18469e295bd4a7ad526, type: 3}
---- !u!1001 &2036918963
-PrefabInstance:
+--- !u!1 &1920349005 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8231934353774510228, guid: fbe9e84784a5f8d4388e0ecc5770335a, type: 3}
+  m_PrefabInstance: {fileID: 798051898}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1920349006
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.08
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 8.11
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.2630694
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.96477693
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -149.495
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -7918335002988649766, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 02e58bfc35888bf459202a74d34a9d93, type: 2}
-    - target: {fileID: -6093592463355912122, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 02e58bfc35888bf459202a74d34a9d93, type: 2}
-    - target: {fileID: -4683669308469848369, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 02e58bfc35888bf459202a74d34a9d93, type: 2}
-    - target: {fileID: -1461304994638716399, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 02e58bfc35888bf459202a74d34a9d93, type: 2}
-    - target: {fileID: -804731622281664130, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 32d095bc11579824c962cd4da036c9cd, type: 2}
-    - target: {fileID: -678588488315902003, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 02e58bfc35888bf459202a74d34a9d93, type: 2}
-    - target: {fileID: 882129737928793925, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 02e58bfc35888bf459202a74d34a9d93, type: 2}
-    - target: {fileID: 919132149155446097, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_Name
-      value: PS1 Character Samurai Final 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8442510506162454399, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 02e58bfc35888bf459202a74d34a9d93, type: 2}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b67b577c81c974d4c973aad52201c91a, type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920349005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b5505e7c3efcf041aa1b7077fe1f0b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2065376807 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8135269639749328420, guid: 4a0e3ac50e85a2f439e067e9aff48cb2, type: 3}
@@ -1049,7 +956,6 @@ SceneRoots:
   - {fileID: 383888395}
   - {fileID: 1399323795}
   - {fileID: 331553782}
-  - {fileID: 2036918963}
-  - {fileID: 51347332}
   - {fileID: 1328984900}
   - {fileID: 14444040220759347}
+  - {fileID: 798051898}
