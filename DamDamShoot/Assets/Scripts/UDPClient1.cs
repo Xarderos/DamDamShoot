@@ -16,6 +16,7 @@ public class ClientUDP1 : MonoBehaviour
     public GameObject waitingCanvas;
     public TextMeshProUGUI countdownText;
     private bool gameStarted = false;
+
     //
     Socket socket;
     string serverIP;

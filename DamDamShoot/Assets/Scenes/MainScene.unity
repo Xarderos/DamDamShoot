@@ -6015,7 +6015,6 @@ GameObject:
   - component: {fileID: 1123988077}
   - component: {fileID: 1123988076}
   - component: {fileID: 1123988075}
-  - component: {fileID: 1123988074}
   m_Layer: 5
   m_Name: CanvasWaiting
   m_TagString: Untagged
@@ -6023,22 +6022,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1123988074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123988073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 958e2bcae1f8d5e4ba83a1e37667dcde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletIconPrefab: {fileID: 8663553596862549866, guid: ebbd52c7f3664aa4a97a853cd8b8479a, type: 3}
-  p1BulletContainer: {fileID: 0}
-  p2BulletContainer: {fileID: 0}
-  GM: {fileID: 1331702994}
 --- !u!114 &1123988075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9674,7 +9657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.028301895, g: 0.019090429, b: 0.019090429, a: 0.392}
+  m_Color: {r: 0.028301895, g: 0.019090429, b: 0.019090429, a: 0.52156866}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9963,6 +9946,7 @@ GameObject:
   - component: {fileID: 1781303700}
   - component: {fileID: 1781303702}
   - component: {fileID: 1781303701}
+  - component: {fileID: 1781303703}
   m_Layer: 5
   m_Name: WaitingText
   m_TagString: Untagged
@@ -10086,6 +10070,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781303699}
   m_CullTransparentMesh: 1
+--- !u!114 &1781303703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781303699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3eab935cf382824aa0820a73f8baf58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelImage: {fileID: 1750407487}
+  waitingText: {fileID: 1781303701}
+  fadeDuration: 1.5
 --- !u!1001 &1790976080
 PrefabInstance:
   m_ObjectHideFlags: 0

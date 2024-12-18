@@ -14,6 +14,7 @@ public class ServerUDP : MonoBehaviour
     public TextMeshProUGUI countdownText;
     private bool clientConnected = false;
 
+
     Socket socket;
     public GameObject player1;
     public GameObject player2;
