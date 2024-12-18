@@ -15,6 +15,7 @@ public class ClientUDP1 : MonoBehaviour
     //SERGIO
     public GameObject waitingCanvas;
     public TextMeshProUGUI countdownText;
+    public TextMeshProUGUI waitingText;
     private bool gameStarted = false;
 
     //
@@ -62,7 +63,7 @@ public class ClientUDP1 : MonoBehaviour
         {
             serverIP = script.ip;
         }
-
+        waitingText.gameObject.SetActive(false);
         receivedPositionP1 = new Vector3(0, 0, 0);
         playerPosition = player2.transform.position;
 
@@ -294,6 +295,7 @@ public class ClientUDP1 : MonoBehaviour
 
     IEnumerator CountdownCoroutine()
     {
+
         waitingCanvas.SetActive(true);
         int countdown = 5;
 

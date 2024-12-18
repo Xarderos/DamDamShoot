@@ -16,6 +16,7 @@ public class PanelFadeController : MonoBehaviour
     public float dotAnimationSpeed = 1.25f;
 
     private Color originalPanelColor;
+    private Coroutine animateTextCoroutine;
 
     void Start()
     {
@@ -66,6 +67,15 @@ public class PanelFadeController : MonoBehaviour
 
             waitingText.text = "Waiting...";
             yield return new WaitForSeconds(dotAnimationSpeed);
+        }
+    }
+
+    public void StopTextAnimation()
+    {
+        if (animateTextCoroutine != null)
+        {
+            StopCoroutine(animateTextCoroutine);  // Detener la corrutina
+            waitingText.text = "Waiting...";  // Dejar los 3 puntos visibles
         }
     }
 }

@@ -12,6 +12,8 @@ public class ServerUDP : MonoBehaviour
 {
     public GameObject waitingCanvas;
     public TextMeshProUGUI countdownText;
+    public TextMeshProUGUI waitingText;  // Texto para el countdown
+
     private bool clientConnected = false;
 
 
@@ -290,12 +292,14 @@ public class ServerUDP : MonoBehaviour
     //SERGIO
     void StartCountdown()
     {
+        //waitingCanvas.GetComponent<PanelFadeController>().StopTextAnimation();
+
         StartCoroutine(CountdownCoroutine());
     }
 
     IEnumerator CountdownCoroutine()
     {
-
+        waitingText.gameObject.SetActive(false);
         int countdown = 5;
 
         while (countdown > 0)
