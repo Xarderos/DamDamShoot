@@ -28,6 +28,8 @@ public class ServerUDP : MonoBehaviour
     private Thread sendThread;
     bool positionUpdatedP2;
     public GameObject projectilePrefab;
+    public GameObject pwprojectilePrefab;
+
     public float projectileSpeed = 10f;
     public float bulletTime = 2f;
 
@@ -137,7 +139,7 @@ public class ServerUDP : MonoBehaviour
                     receivedPositionP2 = new Vector3(x, y, z);
                     positionUpdatedP2 = true;
                 }
-                else if (positionData[0] == "SHOT" && positionData.Length == 6)
+                else if (positionData[0] == "SHOT" && positionData.Length == 7)
                 {
                     Debug.Log("Receive");
                     if (float.TryParse(positionData[1], out float px) &&
@@ -146,8 +148,12 @@ public class ServerUDP : MonoBehaviour
                         float.TryParse(positionData[4], out float dx) &&
                         float.TryParse(positionData[5], out float dz))
                     {
-
-                        HandleShotOnServer(px, py, pz, dx, dz);
+                        bool isPowerful = false;
+                        if (positionData[6] == "POWERFUL")
+                        {
+                            isPowerful = true;
+                        }
+                        HandleShotOnServer(px, py, pz, dx, dz, isPowerful);
 
                     }
                 }
@@ -205,7 +211,7 @@ public class ServerUDP : MonoBehaviour
             Debug.LogError("SocketException during Send: " + ex.Message);
         }
     }
-    void HandleShotOnServer(float px, float py, float pz, float dx, float dz)
+    void HandleShotOnServer(float px, float py, float pz, float dx, float dz, bool isPowerful)
     {
         lock (mainThreadActions)
         {
@@ -213,8 +219,8 @@ public class ServerUDP : MonoBehaviour
             {
                 Vector3 position = new Vector3(px, py, pz);
                 Vector3 direction = new Vector3(dx, 0, dz);
-
-                GameObject projectile = Instantiate(projectilePrefab, position, Quaternion.identity);
+                GameObject prefab = isPowerful ? pwprojectilePrefab : projectilePrefab;
+                GameObject projectile = Instantiate(prefab, position, Quaternion.identity);
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
@@ -224,11 +230,11 @@ public class ServerUDP : MonoBehaviour
             });
         }
     }
-    public void BroadcastShot(float px, float py, float pz, float dx, float dz)
+    public void BroadcastShot(float px, float py, float pz, float dx, float dz, bool isPowerful)
     {
 
         Debug.Log("Broadcast");
-        string message = $"SHOT|{px}|{py}|{pz}|{dx}|{dz}";
+        string message = $"SHOT|{px}|{py}|{pz}|{dx}|{dz}|{(isPowerful ? "POWERFUL" : "NORMAL")}";
         byte[] data = Encoding.UTF8.GetBytes(message);
 
         if (clientEndpoint != null)

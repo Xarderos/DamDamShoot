@@ -11,6 +11,7 @@ public class CapsuleMovement : MonoBehaviour
 
     public float speed = 5f;
     public GameObject projectilePrefab;
+    public GameObject powerfulProjectilePrefab;
     public float projectileSpeed = 10f;
     public float reloadTime = 2f;
     public float reloadSpeedMultiplier = 0.5f;
@@ -75,6 +76,11 @@ public class CapsuleMovement : MonoBehaviour
             ShootProjectile();
         }
 
+        if (Input.GetMouseButtonDown(1) && ammoCount >= 2)
+        {
+            ShootPowerfulProjectile(); // Llamada para disparar la bala potente
+        }
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             StartReload();
@@ -113,12 +119,31 @@ public class CapsuleMovement : MonoBehaviour
         ammoCount--;
         Debug.Log("Disparo realizado. Balas restantes: " + ammoCount);
 
+        CreateProjectile(projectilePrefab, false); // Bala normal
+    }
+
+    void ShootPowerfulProjectile()
+    {
+        if (ammoCount < 2)
+        {
+            Debug.LogWarning("No tienes suficiente munición para disparar la bala potente.");
+            return;
+        }
+
+        ammoCount -= 2; // Consume 2 balas
+        Debug.Log("Disparo potente realizado. Balas restantes: " + ammoCount);
+
+        CreateProjectile(powerfulProjectilePrefab, true); // Bala potente
+    }
+
+    void CreateProjectile(GameObject prefab, bool isPowerful)
+    {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitInfo))
         {
             Vector3 direction = (hitInfo.point - transform.position).normalized;
             Vector3 newBulletPosition = transform.position + direction;
-            GameObject projectile = Instantiate(projectilePrefab, newBulletPosition, Quaternion.identity);
+            GameObject projectile = Instantiate(prefab, newBulletPosition, Quaternion.identity);
             Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
             if (projectileRb != null)
             {
@@ -129,11 +154,11 @@ public class CapsuleMovement : MonoBehaviour
             {
                 if (GameManager.instance.isServer && ServerUDP.Instance != null)
                 {
-                    ServerUDP.Instance.BroadcastShot(newBulletPosition.x, newBulletPosition.y, newBulletPosition.z, direction.x, direction.z);
+                    ServerUDP.Instance.BroadcastShot(newBulletPosition.x, newBulletPosition.y, newBulletPosition.z, direction.x, direction.z, isPowerful);
                 }
                 else if (GameManager.instance.isClient && ClientUDP1.Instance != null)
                 {
-                    ClientUDP1.Instance.SendShot(newBulletPosition.x, newBulletPosition.y, newBulletPosition.z, direction.x, direction.z);
+                    ClientUDP1.Instance.SendShot(newBulletPosition.x, newBulletPosition.y, newBulletPosition.z, direction.x, direction.z, isPowerful);
                 }
             }
             Destroy(projectile, bulletTime);
@@ -151,7 +176,6 @@ public class CapsuleMovement : MonoBehaviour
 
         StartCoroutine(ShieldDurationCoroutine());
         StartCoroutine(ShieldCooldownCoroutine());
-
     }
 
     IEnumerator ShieldDurationCoroutine()
@@ -218,6 +242,16 @@ public class CapsuleMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+
+        if (isP1 && collision.transform.CompareTag("PowerfulBulletP2"))
+        {
+            SceneManager.LoadScene("P2Win");
+        }
+        if (!isP1 && collision.transform.CompareTag("PowerfulBulletP1"))
+        {
+            SceneManager.LoadScene("P1Win");
+        }
+
         if (isShieldActive && (collision.transform.CompareTag("BulletP2") || collision.transform.CompareTag("BulletP1")))
         {
             Debug.Log("Bala destruida por el escudo");

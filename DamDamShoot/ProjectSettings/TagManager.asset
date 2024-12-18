@@ -8,6 +8,8 @@ TagManager:
   - BulletP2
   - Box1
   - Box2
+  - PowerfulBulletP2
+  - PowerfulBulletP1
   layers:
   - Default
   - TransparentFX
