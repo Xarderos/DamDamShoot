@@ -10,9 +10,8 @@ using TMPro;
 
 public class ServerUDP : MonoBehaviour
 {
-
-    public GameObject waitingCanvas; // Asigna el Canvas en Unity
-    public TextMeshProUGUI countdownText;       // Asigna el texto de cuenta atrás
+    public GameObject waitingCanvas;
+    public TextMeshProUGUI countdownText;
     private bool clientConnected = false;
 
     Socket socket;
@@ -28,6 +27,9 @@ public class ServerUDP : MonoBehaviour
     public GameObject projectilePrefab;
     public float projectileSpeed = 10f;
     public float bulletTime = 2f;
+
+
+
     public static ServerUDP Instance { get; private set; }
     private readonly Queue<System.Action> mainThreadActions = new Queue<System.Action>();
     bool activateshield = false;
@@ -68,12 +70,10 @@ public class ServerUDP : MonoBehaviour
 
     void Update()
     {
-
-        //// Si el cliente aún no está conectado, bloquea el movimiento del jugador 1
-        //if (!clientConnected)
-        //{
-        //    player1.GetComponent<CapsuleMovement>().canMove = false;
-        //}
+        if (!clientConnected)
+        {
+            player1.GetComponent<CapsuleMovement>().canMove = false;
+        }
 
         playerPosition = player1.transform.position;
         if (positionUpdatedP2)
@@ -111,23 +111,18 @@ public class ServerUDP : MonoBehaviour
                 int recv = socket.ReceiveFrom(data, ref remote);
                 string message = Encoding.ASCII.GetString(data, 0, recv);
 
+                //SERGIO
                 if (!clientConnected)
                 {
-                    clientConnected = true; // Cliente conectado
-                    clientEndpoint = remote;
-
-                    // Activar cuenta atrás
+                    clientConnected = true;
                     lock (mainThreadActions)
                     {
-                        mainThreadActions.Enqueue(() =>
-                        {
-                            waitingCanvas.SetActive(true); // Mostrar el canvas
-                            player1.GetComponent<CapsuleMovement>().canMove = false; // Bloquear movimiento
-                            StartCountdown(); // Iniciar la cuenta atrás
-                        });
+                        mainThreadActions.Enqueue(() => StartCountdown());
                     }
+                    Debug.Log("Client connected: " + remote.ToString());
+                    clientEndpoint = remote;
+
                 }
-                
 
                 string[] positionData = message.Split('|');
 
@@ -228,6 +223,7 @@ public class ServerUDP : MonoBehaviour
     }
     public void BroadcastShot(float px, float py, float pz, float dx, float dz)
     {
+
         Debug.Log("Broadcast");
         string message = $"SHOT|{px}|{py}|{pz}|{dx}|{dz}";
         byte[] data = Encoding.UTF8.GetBytes(message);
@@ -236,6 +232,7 @@ public class ServerUDP : MonoBehaviour
         {
             socket.SendTo(data, clientEndpoint);
         }
+
     }
     public void SendShield()
     {
@@ -297,8 +294,8 @@ public class ServerUDP : MonoBehaviour
 
     IEnumerator CountdownCoroutine()
     {
-        waitingCanvas.SetActive(true);
-        int countdown = 5; // Tiempo de cuenta atrás en segundos
+
+        int countdown = 5;
 
         while (countdown > 0)
         {
@@ -307,13 +304,11 @@ public class ServerUDP : MonoBehaviour
             countdown--;
         }
 
-        // Desactivar pantalla de espera y permitir el movimiento
+   
         waitingCanvas.SetActive(false);
         player1.GetComponent<CapsuleMovement>().canMove = true;
+        clientConnected = true;
 
-        // Enviar señal al cliente para que también desbloquee su movimiento
-        string message = "START_GAME";
-        byte[] data = Encoding.UTF8.GetBytes(message);
-        socket.SendTo(data, clientEndpoint);
     }
+    //
 }

@@ -11,13 +11,12 @@ using TMPro;
 
 
 public class ClientUDP1 : MonoBehaviour
-{
+{   
     //SERGIO
-    public GameObject waitingCanvas; // Asigna el Canvas en Unity
-    public TextMeshProUGUI countdownText;       // Asigna el texto de cuenta atrás
+    public GameObject waitingCanvas;
+    public TextMeshProUGUI countdownText;
     private bool gameStarted = false;
     //
-
     Socket socket;
     string serverIP;
     public InputField ipInputField;
@@ -33,7 +32,6 @@ public class ClientUDP1 : MonoBehaviour
     public static ClientUDP1 Instance { get; private set; }
 
     private readonly Queue<System.Action> mainThreadActions = new Queue<System.Action>();
-
 
     bool positionUpdatedP1;
     bool isRunning = true;
@@ -72,7 +70,6 @@ public class ClientUDP1 : MonoBehaviour
 
     void Update()
     {
-        // Si el juego aún no ha comenzado, bloquear el movimiento del jugador 2
         if (!gameStarted)
         {
             player2.GetComponent<CapsuleMovement>().canMove = false;
@@ -121,6 +118,10 @@ public class ClientUDP1 : MonoBehaviour
         {
             IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(serverIP), 9050);
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            lock (mainThreadActions)
+            {
+                mainThreadActions.Enqueue(() => StartCountdown());
+            }
 
             while (isRunning)
             {
@@ -186,13 +187,6 @@ public class ClientUDP1 : MonoBehaviour
             else if (message == "SHIELD")
             {
                 activateshield = true;
-            }
-            else if (message == "START_GAME")
-            {
-                lock (mainThreadActions)
-                {
-                    mainThreadActions.Enqueue(() => StartCountdown());
-                }
             }
         }
         catch (SocketException e)
@@ -300,7 +294,7 @@ public class ClientUDP1 : MonoBehaviour
     IEnumerator CountdownCoroutine()
     {
         waitingCanvas.SetActive(true);
-        int countdown = 5; // Tiempo de cuenta atrás en segundos
+        int countdown = 5;
 
         while (countdown > 0)
         {
@@ -309,7 +303,6 @@ public class ClientUDP1 : MonoBehaviour
             countdown--;
         }
 
-        // Desactivar pantalla de espera y permitir el movimiento
         waitingCanvas.SetActive(false);
         player2.GetComponent<CapsuleMovement>().canMove = true;
         gameStarted = true;

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class CapsuleMovement : MonoBehaviour
 {
     //SERGIO
-    public bool canMove = true;
+    public bool canMove = false;
     //
 
     public float speed = 5f;
@@ -52,6 +52,12 @@ public class CapsuleMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!canMove)
+        {
+            rb.velocity = Vector3.zero;
+            return;
+        }
+
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical) * speed;
@@ -61,7 +67,7 @@ public class CapsuleMovement : MonoBehaviour
     void Update()
     {
         //SERGIO
-        if (!canMove) return; // Bloquea el movimiento si no está permitido
+        if (!canMove) return;
         //
 
         if (Input.GetMouseButtonDown(0) && ammoCount > 0)
