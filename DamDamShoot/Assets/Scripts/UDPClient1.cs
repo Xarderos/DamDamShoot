@@ -344,7 +344,8 @@ public class ClientUDP1 : MonoBehaviour
     {
 
         waitingCanvas.SetActive(true);
-        int countdown = 3;
+        //TODO canviar a 3 altre cop
+        int countdown = 0;
 
         while (countdown > 0)
         {

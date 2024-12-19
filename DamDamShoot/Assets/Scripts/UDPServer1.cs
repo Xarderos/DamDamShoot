@@ -344,7 +344,8 @@ public class ServerUDP : MonoBehaviour
     IEnumerator CountdownCoroutine()
     {
         waitingText.gameObject.SetActive(false);
-        int countdown = 3;
+        //TODO canviar a 3 altre cop
+        int countdown = 0;
 
         while (countdown > 0)
         {

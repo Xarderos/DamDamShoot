@@ -42,7 +42,9 @@ public class CapsuleMovement : MonoBehaviour
     public GameObject parryVisual; 
     public float parryDuration = 0.2f; 
     public LayerMask bulletLayerMask;
-    public Ray ParryRaycast;
+    public float parryDirectionX = 0;
+    public float parryDirectionZ = 0;
+
     private bool isParrying = false;
 
 
@@ -139,8 +141,9 @@ public class CapsuleMovement : MonoBehaviour
                         ClientUDP1.Instance.SendParry(direction.x, direction.z);
                     }
                 }
+                StartParry(direction.x, direction.z);
+
             }
-            StartParry(ray.direction.x, ray.direction.z);
         }
 
 
@@ -282,13 +285,9 @@ public class CapsuleMovement : MonoBehaviour
     }
     IEnumerator PerformParry(float X, float Z)
     {
-        if (ammoCount <= 0)
-        {
-            Debug.LogWarning("No tienes munición suficiente para hacer un Parry.");
-            yield break;
-        }
 
-        ParryRaycast.direction.Set(X,0,Z);
+        parryDirectionX = X;
+        parryDirectionZ = Z;
   
         isParrying = true;
         ammoCount--; // Consume una bala
@@ -306,28 +305,35 @@ public class CapsuleMovement : MonoBehaviour
             parryVisual.SetActive(false);
 
         isParrying = false;
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (isParrying && collision.gameObject.layer == LayerMask.NameToLayer("Bullets"))
         {
-            GameObject bullet = collision.gameObject;
+            
             Debug.Log("Bala reflejada con Parry");
-            Destroy(bullet);
-            if (Physics.Raycast(ParryRaycast, out RaycastHit hitInfo))
+            Destroy(collision.gameObject);
+            Vector3 direction = new Vector3(parryDirectionX, 0, parryDirectionZ);
+            Vector3 newBulletPosition = transform.position + direction;
+            GameObject projectile = Instantiate(powerfulProjectilePrefab, newBulletPosition, Quaternion.identity);
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
             {
-                Vector3 direction = (hitInfo.point - transform.position).normalized;
-                Vector3 newBulletPosition = transform.position + direction;
-                GameObject projectile = Instantiate(powerfulProjectilePrefab, newBulletPosition, Quaternion.identity);
-                Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
-                if (projectileRb != null)
-                {
-                    projectileRb.velocity = direction * projectileSpeed;
-                }
-                Destroy(projectile, bulletTime);
-
+                rb.velocity = direction.normalized * projectileSpeed;
             }
+            //Vector3 direction = (hitInfo.point - transform.position).normalized;
+            //Vector3 newBulletPosition = transform.position + direction;
+            //GameObject projectile = Instantiate(prefab, newBulletPosition, Quaternion.identity);
+            //Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
+            //if (projectileRb != null)
+            //{
+            //    projectileRb.velocity = direction * projectileSpeed;
+            //}
+            Destroy(projectile, bulletTime);
+            isParrying = false;
+
         }
         else if (isP1 && collision.transform.CompareTag("PowerfulBulletP2"))
         {

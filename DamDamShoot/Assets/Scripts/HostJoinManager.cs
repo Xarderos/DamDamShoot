@@ -14,12 +14,14 @@ public class HostJoinManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(gameObject);
+        if (ipInputField)
         ip = ipInputField.text;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(ipInputField)
         ip = ipInputField.text;
     }
 
