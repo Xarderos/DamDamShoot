@@ -397,6 +397,7 @@ GameObject:
   - component: {fileID: 14825549}
   - component: {fileID: 14825553}
   - component: {fileID: 14825554}
+  - component: {fileID: 14825555}
   m_Layer: 3
   m_Name: P1
   m_TagString: Untagged
@@ -521,7 +522,6 @@ MonoBehaviour:
   bulletTime: 2
   isP1: 1
   ammoCount: 1
-  playerAnimator: {fileID: 2066096845}
   shieldDuration: 0.5
   shieldCooldown: 4
   shieldVisual: {fileID: 1627094036}
@@ -530,6 +530,8 @@ MonoBehaviour:
   bulletLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  parryDirectionX: 0
+  parryDirectionZ: 0
   reloadUIController: {fileID: 1902691475}
 --- !u!54 &14825554
 Rigidbody:
@@ -558,6 +560,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &14825555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14825548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2175508c90dcfd24eb8a2068debd3371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playeranimator: {fileID: 2066096845}
 --- !u!4 &32009016 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5770a8001c27cb4449bd7227cac294a9, type: 3}
@@ -7258,6 +7273,7 @@ GameObject:
   - component: {fileID: 1360974093}
   - component: {fileID: 1360974097}
   - component: {fileID: 1360974098}
+  - component: {fileID: 1360974099}
   m_Layer: 3
   m_Name: P2
   m_TagString: Untagged
@@ -7382,7 +7398,6 @@ MonoBehaviour:
   bulletTime: 2
   isP1: 0
   ammoCount: 1
-  playerAnimator: {fileID: 1455650660}
   shieldDuration: 0.5
   shieldCooldown: 4
   shieldVisual: {fileID: 1975390404}
@@ -7391,6 +7406,8 @@ MonoBehaviour:
   bulletLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  parryDirectionX: 0
+  parryDirectionZ: 0
   reloadUIController: {fileID: 1902691475}
 --- !u!54 &1360974098
 Rigidbody:
@@ -7419,6 +7436,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1360974099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360974092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2175508c90dcfd24eb8a2068debd3371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playeranimator: {fileID: 1455650660}
 --- !u!4 &1390264759 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5770a8001c27cb4449bd7227cac294a9, type: 3}
@@ -7628,7 +7658,7 @@ Animator:
   m_GameObject: {fileID: 1455650658}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0751593a773e525429db2698056ff135, type: 2}
+  m_Controller: {fileID: 9100000, guid: 071afffce13c543448679799d64b22b9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -38,6 +38,7 @@ public class CapsuleMovement : MonoBehaviour
     public GameObject shieldVisual;
 
 
+
     //Parry
     public GameObject parryVisual; 
     public float parryDuration = 0.2f; 
@@ -68,6 +69,7 @@ public class CapsuleMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+
         if (!canMove)
         {
             rb.velocity = Vector3.zero;
@@ -82,6 +84,7 @@ public class CapsuleMovement : MonoBehaviour
 
     void Update()
     {
+
         //SERGIO
         if (!canMove) return;
         //
