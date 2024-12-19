@@ -519,9 +519,14 @@ MonoBehaviour:
   bulletTime: 2
   isP1: 1
   ammoCount: 1
-  shieldDuration: 0.75
+  shieldDuration: 0.5
   shieldCooldown: 4
   shieldVisual: {fileID: 1400200267}
+  parryVisual: {fileID: 1400200267}
+  parryDuration: 3.77
+  bulletLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
   reloadUIController: {fileID: 1902691475}
 --- !u!54 &14825554
 Rigidbody:
@@ -7423,9 +7428,14 @@ MonoBehaviour:
   bulletTime: 2
   isP1: 0
   ammoCount: 1
-  shieldDuration: 0.75
+  shieldDuration: 0.5
   shieldCooldown: 4
   shieldVisual: {fileID: 142543890}
+  parryVisual: {fileID: 142543890}
+  parryDuration: 2.89
+  bulletLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
   reloadUIController: {fileID: 1902691475}
 --- !u!54 &1360974098
 Rigidbody:

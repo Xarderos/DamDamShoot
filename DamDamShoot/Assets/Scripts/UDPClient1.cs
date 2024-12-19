@@ -40,6 +40,9 @@ public class ClientUDP1 : MonoBehaviour
     bool isRunning = true;
     bool activateshield = false;
 
+    float parryX = 0;
+    float parryZ = 0;
+    bool isparrying = false;
     HostJoinManager script;
 
     void Awake()
@@ -98,6 +101,11 @@ public class ClientUDP1 : MonoBehaviour
         {
             activateshield = false;
             ActivateShield();
+        }
+        if (isparrying)
+        {
+            ActivateParry(parryX, parryZ);
+            isparrying = false;
         }
     }
 
@@ -194,6 +202,17 @@ public class ClientUDP1 : MonoBehaviour
 
                 }
             }
+            else if (parts[0] == "PARRY")
+            {
+                if (float.TryParse(parts[1], out float X) &&
+                    float.TryParse(parts[2], out float Z))
+                {
+                    isparrying = true;
+                    parryX = X;
+                    parryZ = Z;
+
+                }
+            }
             else if (message == "SHIELD")
             {
                 activateshield = true;
@@ -247,6 +266,23 @@ public class ClientUDP1 : MonoBehaviour
         }
     }
 
+    public void SendParry(float x, float z)
+    {
+        Debug.Log("SendShot");
+
+        string message = $"PARRY|{x}|{z}";
+        byte[] data = Encoding.ASCII.GetBytes(message);
+
+        try
+        {
+            IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(serverIP), 9050);
+            socket.SendTo(data, ipep);
+        }
+        catch (SocketException e)
+        {
+            Debug.LogError("Error sending shot data: " + e.Message);
+        }
+    }
     public void SendShield()
     {
         Debug.Log("SendShield");
@@ -300,12 +336,15 @@ public class ClientUDP1 : MonoBehaviour
     {
         StartCoroutine(CountdownCoroutine());
     }
-
+    void ActivateParry(float x, float z)
+    {
+        player1.GetComponent<CapsuleMovement>().StartParry(x, z);
+    }
     IEnumerator CountdownCoroutine()
     {
 
         waitingCanvas.SetActive(true);
-        int countdown = 5;
+        int countdown = 3;
 
         while (countdown > 0)
         {

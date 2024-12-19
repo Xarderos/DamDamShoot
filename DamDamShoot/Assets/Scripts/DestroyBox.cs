@@ -10,7 +10,7 @@ public class DestroyBox : MonoBehaviour
         Debug.Log($"Collision detected with: {collision.gameObject.name}");
 
        
-        if (collision.gameObject.CompareTag("BulletP1") || collision.gameObject.CompareTag("PowerfulBulletP1"))
+        if (collision.gameObject.CompareTag("BulletP1"))
         {
             if (CompareTag("Box2"))
             {
@@ -22,11 +22,11 @@ public class DestroyBox : MonoBehaviour
             }
         }
         
-        else if (collision.gameObject.CompareTag("BulletP2") || collision.gameObject.CompareTag("PowerfulBulletP2"))
+        else if (collision.gameObject.CompareTag("BulletP2"))
         {
             if (CompareTag("Box1"))
             {
-                HandleDestruction(collision.gameObject);
+                HandleDestruction(collision.gameObject); 
             }
             else if (CompareTag("Box2"))
             {

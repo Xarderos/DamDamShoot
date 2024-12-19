@@ -39,6 +39,11 @@ public class ServerUDP : MonoBehaviour
     private readonly Queue<System.Action> mainThreadActions = new Queue<System.Action>();
     bool activateshield = false;
 
+
+    float parryX = 0;
+    float parryZ = 0;
+    bool isparrying = false;
+
     void Awake()
     {
         if (Instance == null)
@@ -97,6 +102,11 @@ public class ServerUDP : MonoBehaviour
         {
             activateshield = false;
             ActivateShield();
+        }
+        if (isparrying)
+        {
+            ActivateParry(parryX, parryZ);
+            isparrying = false;
         }
     }
 
@@ -160,6 +170,17 @@ public class ServerUDP : MonoBehaviour
                 else if (message == "SHIELD")
                 {
                     activateshield = true;
+                }
+                else if (positionData[0] == "PARRY")
+                {
+                    if (float.TryParse(positionData[1], out float X) &&
+                        float.TryParse(positionData[2], out float Z))
+                    {
+                        parryX = X;
+                        parryZ = Z;
+                        isparrying = true;
+
+                    }
                 }
                 lock (this)
                 {
@@ -243,6 +264,20 @@ public class ServerUDP : MonoBehaviour
         }
 
     }
+    public void BroadcastParry(float x, float z)
+    {
+
+        Debug.Log("Broadcast");
+        string message = $"PARRY|{x}|{z}";
+        byte[] data = Encoding.UTF8.GetBytes(message);
+
+        if (clientEndpoint != null)
+        {
+            socket.SendTo(data, clientEndpoint);
+        }
+
+    }
+
     public void SendShield()
     {
 
@@ -294,7 +329,10 @@ public class ServerUDP : MonoBehaviour
         player2.GetComponent<CapsuleMovement>().ActivateShield();
     }
 
-
+    void ActivateParry(float x, float z)
+    {
+        player2.GetComponent<CapsuleMovement>().StartParry(x,z);
+    }
     //SERGIO
     void StartCountdown()
     {
@@ -306,7 +344,7 @@ public class ServerUDP : MonoBehaviour
     IEnumerator CountdownCoroutine()
     {
         waitingText.gameObject.SetActive(false);
-        int countdown = 5;
+        int countdown = 3;
 
         while (countdown > 0)
         {

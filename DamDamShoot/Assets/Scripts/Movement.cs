@@ -37,6 +37,15 @@ public class CapsuleMovement : MonoBehaviour
     private bool isShieldActive = false;
     public GameObject shieldVisual;
 
+
+    //Parry
+    public GameObject parryVisual; 
+    public float parryDuration = 0.2f; 
+    public LayerMask bulletLayerMask;
+    public Ray ParryRaycast;
+    private bool isParrying = false;
+
+
     public ReloadUIController reloadUIController;
 
     void Start()
@@ -49,6 +58,10 @@ public class CapsuleMovement : MonoBehaviour
 
         if (shieldVisual != null)
             shieldVisual.SetActive(false);
+
+        if (parryVisual != null)
+            parryVisual.SetActive(false);
+
     }
 
     void FixedUpdate()
@@ -78,7 +91,7 @@ public class CapsuleMovement : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1) && ammoCount >= 2)
         {
-            ShootPowerfulProjectile(); // Llamada para disparar la bala potente
+            ShootPowerfulProjectile();
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -106,8 +119,36 @@ public class CapsuleMovement : MonoBehaviour
                 }
             }
         }
-    }
 
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isParrying && ammoCount>0)
+        {
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo))
+            {
+                Vector3 direction = (hitInfo.point - transform.position).normalized;
+
+                // Notificar al servidor/cliente
+                if (GameManager.instance != null)
+                {
+                    if (GameManager.instance.isServer && ServerUDP.Instance != null)
+                    {
+                        ServerUDP.Instance.BroadcastParry(direction.x, direction.z);
+                    }
+                    else if (GameManager.instance.isClient && ClientUDP1.Instance != null)
+                    {
+                        ClientUDP1.Instance.SendParry(direction.x, direction.z);
+                    }
+                }
+            }
+            StartParry(ray.direction.x, ray.direction.z);
+        }
+
+
+    }
+    public void StartParry(float X, float Y)
+    {
+        StartCoroutine(PerformParry(X, Y));
+    }
     void ShootProjectile()
     {
         if (ammoCount <= 0)
@@ -239,20 +280,64 @@ public class CapsuleMovement : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
+    IEnumerator PerformParry(float X, float Z)
+    {
+        if (ammoCount <= 0)
+        {
+            Debug.LogWarning("No tienes munición suficiente para hacer un Parry.");
+            yield break;
+        }
+
+        ParryRaycast.direction.Set(X,0,Z);
+  
+        isParrying = true;
+        ammoCount--; // Consume una bala
+        Debug.Log("Parry activado. Munición restante: " + ammoCount);
+
+        // Activar visual del Parry
+        if (parryVisual != null)
+            parryVisual.SetActive(true);
+
+        // Esperar la duración del parry
+        yield return new WaitForSeconds(parryDuration);
+
+        // Desactivar el Parry Visual
+        if (parryVisual != null)
+            parryVisual.SetActive(false);
+
+        isParrying = false;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (isParrying && collision.gameObject.layer == LayerMask.NameToLayer("Bullets"))
+        {
+            GameObject bullet = collision.gameObject;
+            Debug.Log("Bala reflejada con Parry");
+            Destroy(bullet);
+            if (Physics.Raycast(ParryRaycast, out RaycastHit hitInfo))
+            {
+                Vector3 direction = (hitInfo.point - transform.position).normalized;
+                Vector3 newBulletPosition = transform.position + direction;
+                GameObject projectile = Instantiate(powerfulProjectilePrefab, newBulletPosition, Quaternion.identity);
+                Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
+                if (projectileRb != null)
+                {
+                    projectileRb.velocity = direction * projectileSpeed;
+                }
+                Destroy(projectile, bulletTime);
 
-        if (isP1 && collision.transform.CompareTag("PowerfulBulletP2"))
+            }
+        }
+        else if (isP1 && collision.transform.CompareTag("PowerfulBulletP2"))
         {
             SceneManager.LoadScene("P2Win");
         }
-        if (!isP1 && collision.transform.CompareTag("PowerfulBulletP1"))
+        else if (!isP1 && collision.transform.CompareTag("PowerfulBulletP1"))
         {
             SceneManager.LoadScene("P1Win");
         }
-
-        if (isShieldActive && (collision.transform.CompareTag("BulletP2") || collision.transform.CompareTag("BulletP1")))
+        else if (isShieldActive && (collision.transform.CompareTag("BulletP2") || collision.transform.CompareTag("BulletP1")))
         {
             Debug.Log("Bala destruida por el escudo");
             collision.gameObject.SetActive(false);
@@ -265,5 +350,7 @@ public class CapsuleMovement : MonoBehaviour
         {
             SceneManager.LoadScene("P1Win");
         }
+        
     }
+
 }
