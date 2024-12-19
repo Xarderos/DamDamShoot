@@ -19,7 +19,6 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton pattern
         if (Instance == null)
         {
             Instance = this;
@@ -30,7 +29,6 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // Inicializar el diccionario y el AudioSource
         audioDictionary = new Dictionary<string, AudioClip>();
         foreach (var audioClipInfo in audioClips)
         {
@@ -40,7 +38,6 @@ public class AudioManager : MonoBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
     }
 
-    // Método para reproducir un clip por nombre
     public void PlayAudio(string clipName)
     {
         if (audioDictionary.TryGetValue(clipName, out AudioClip clip))

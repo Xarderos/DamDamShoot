@@ -12,13 +12,11 @@ using TMPro;
 
 public class ClientUDP1 : MonoBehaviour
 {   
-    //SERGIO
     public GameObject waitingCanvas;
     public TextMeshProUGUI countdownText;
     public TextMeshProUGUI waitingText;
     private bool gameStarted = false;
 
-    //
     Socket socket;
     string serverIP;
     public GameObject player1;
@@ -50,7 +48,6 @@ public class ClientUDP1 : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            // Inicialización adicional si es necesario
         }
         else
         {
@@ -323,13 +320,12 @@ public class ClientUDP1 : MonoBehaviour
         {
             try
             {
-                socket.Shutdown(SocketShutdown.Both); // Apagar el envío y la recepción
+                socket.Shutdown(SocketShutdown.Both);
             }
             catch (SocketException)
             {
-                // Ignorar si el socket ya está cerrado
             }
-            socket.Close(); // Cerrar el socket
+            socket.Close();
             socket = null;
         }
 
@@ -340,7 +336,6 @@ public class ClientUDP1 : MonoBehaviour
     {
         player1.GetComponent<CapsuleMovement>().ActivateShield();
     }
-    //SERGIO
     void StartCountdown()
     {
         StartCoroutine(CountdownCoroutine());
@@ -353,8 +348,7 @@ public class ClientUDP1 : MonoBehaviour
     {
 
         waitingCanvas.SetActive(true);
-        //TODO canviar a 3 altre cop
-        int countdown = 0;
+        int countdown = 3;
 
         while (countdown > 0)
         {

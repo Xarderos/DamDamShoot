@@ -5,9 +5,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody))]
 public class CapsuleMovement : MonoBehaviour
 {
-    //SERGIO
     public bool canMove = false;
-    //
 
     public float speed = 5f;
     public GameObject projectilePrefab;
@@ -84,10 +82,7 @@ public class CapsuleMovement : MonoBehaviour
 
     void Update()
     {
-
-        //SERGIO
         if (!canMove) return;
-        //
 
         if (Input.GetMouseButtonDown(0) && ammoCount > 0)
         {
@@ -132,7 +127,6 @@ public class CapsuleMovement : MonoBehaviour
             {
                 Vector3 direction = (hitInfo.point - transform.position).normalized;
 
-                // Notificar al servidor/cliente
                 if (GameManager.instance != null)
                 {
                     if (GameManager.instance.isServer && ServerUDP.Instance != null)
@@ -166,7 +160,7 @@ public class CapsuleMovement : MonoBehaviour
         ammoCount--;
         Debug.Log("Disparo realizado. Balas restantes: " + ammoCount);
 
-        CreateProjectile(projectilePrefab, false); // Bala normal
+        CreateProjectile(projectilePrefab, false);
         AudioManager.Instance.PlayAudio("Shot");
 
 
@@ -180,10 +174,10 @@ public class CapsuleMovement : MonoBehaviour
             return;
         }
 
-        ammoCount -= 2; // Consume 2 balas
+        ammoCount -= 2;
         Debug.Log("Disparo potente realizado. Balas restantes: " + ammoCount);
 
-        CreateProjectile(powerfulProjectilePrefab, true); // Bala potente
+        CreateProjectile(powerfulProjectilePrefab, true);
         AudioManager.Instance.PlayAudio("StrongShot");
 
     }
@@ -303,17 +297,16 @@ public class CapsuleMovement : MonoBehaviour
         parryDirectionZ = Z;
   
         isParrying = true;
-        ammoCount--; // Consume una bala
+        ammoCount--;
         Debug.Log("Parry activado. Munición restante: " + ammoCount);
 
-        // Activar visual del Parry
+
         if (parryVisual != null)
             parryVisual.SetActive(true);
 
-        // Esperar la duración del parry
+
         yield return new WaitForSeconds(parryDuration);
 
-        // Desactivar el Parry Visual
         if (parryVisual != null)
             parryVisual.SetActive(false);
 
@@ -336,14 +329,6 @@ public class CapsuleMovement : MonoBehaviour
             {
                 rb.velocity = direction.normalized * projectileSpeed;
             }
-            //Vector3 direction = (hitInfo.point - transform.position).normalized;
-            //Vector3 newBulletPosition = transform.position + direction;
-            //GameObject projectile = Instantiate(prefab, newBulletPosition, Quaternion.identity);
-            //Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
-            //if (projectileRb != null)
-            //{
-            //    projectileRb.velocity = direction * projectileSpeed;
-            //}
             Destroy(projectile, bulletTime);
             isParrying = false;
 

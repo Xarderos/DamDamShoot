@@ -12,8 +12,7 @@ public class ServerUDP : MonoBehaviour
 {
     public GameObject waitingCanvas;
     public TextMeshProUGUI countdownText;
-    public TextMeshProUGUI waitingText;  // Texto para el countdown
-
+    public TextMeshProUGUI waitingText;
     private bool clientConnected = false;
 
 
@@ -126,7 +125,6 @@ public class ServerUDP : MonoBehaviour
                 int recv = socket.ReceiveFrom(data, ref remote);
                 string message = Encoding.ASCII.GetString(data, 0, recv);
 
-                //SERGIO
                 if (!clientConnected)
                 {
                     clientConnected = true;
@@ -307,25 +305,22 @@ public class ServerUDP : MonoBehaviour
     {
         isSending = false;
 
-        // Cerrar el hilo de envío si está activo
         if (sendThread != null && sendThread.IsAlive)
         {
             sendThread.Abort();
             sendThread = null;
         }
 
-        // Cerrar el socket si está activo
         if (socket != null)
         {
             try
             {
-                socket.Shutdown(SocketShutdown.Both); // Apagar la comunicación
+                socket.Shutdown(SocketShutdown.Both);
             }
             catch (SocketException)
             {
-                // Ignorar si el socket ya está cerrado
             }
-            socket.Close(); // Cerrar el socket
+            socket.Close();
             socket = null;
         }
 
@@ -341,10 +336,8 @@ public class ServerUDP : MonoBehaviour
     {
         player2.GetComponent<CapsuleMovement>().StartParry(x,z);
     }
-    //SERGIO
     void StartCountdown()
     {
-        //waitingCanvas.GetComponent<PanelFadeController>().StopTextAnimation();
 
         StartCoroutine(CountdownCoroutine());
     }
@@ -352,8 +345,7 @@ public class ServerUDP : MonoBehaviour
     IEnumerator CountdownCoroutine()
     {
         waitingText.gameObject.SetActive(false);
-        //TODO canviar a 3 altre cop
-        int countdown = 0;
+        int countdown = 3;
 
         while (countdown > 0)
         {
@@ -368,5 +360,5 @@ public class ServerUDP : MonoBehaviour
         clientConnected = true;
 
     }
-    //
+    
 }
