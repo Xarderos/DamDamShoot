@@ -2,44 +2,47 @@ using UnityEngine;
 
 public class DestroyBox : MonoBehaviour
 {
-    public AudioClip breakSound;           
-    public GameObject particlePrefab;      
+    public AudioClip breakSound;
+    public GameObject particlePrefab;
 
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log($"Collision detected with: {collision.gameObject.name}");
 
-       
+
         if (collision.gameObject.CompareTag("BulletP1"))
-        {
-            if (CompareTag("Box2"))
+            if (collision.gameObject.CompareTag("BulletP1") || collision.gameObject.CompareTag("PowerfulBulletP1"))
             {
-                HandleDestruction(collision.gameObject); 
+                if (CompareTag("Box2"))
+                {
+                    HandleDestruction(collision.gameObject);
+                }
+                else if (CompareTag("Box1"))
+                {
+                    DestroyBulletOnly(collision.gameObject);
+                }
             }
-            else if (CompareTag("Box1"))
-            {
-                DestroyBulletOnly(collision.gameObject); 
-            }
-        }
-        
-        else if (collision.gameObject.CompareTag("BulletP2"))
-        {
-            if (CompareTag("Box1"))
-            {
-                HandleDestruction(collision.gameObject); 
-            }
-            else if (CompareTag("Box2"))
-            {
-                DestroyBulletOnly(collision.gameObject); 
-            }
-        }
+
+            else if (collision.gameObject.CompareTag("BulletP2"))
+        else if (collision.gameObject.CompareTag("BulletP2") || collision.gameObject.CompareTag("PowerfulBulletP2"))
+                    {
+                        if (CompareTag("Box1"))
+                        {
+                            HandleDestruction(collision.gameObject);
+                            HandleDestruction(collision.gameObject);
+                        }
+                        else if (CompareTag("Box2"))
+                        {
+                            DestroyBulletOnly(collision.gameObject);
+                        }
+                    }
     }
 
     private void HandleDestruction(GameObject bullet)
     {
         Debug.Log("Destruction conditions met. Destroying box...");
 
-      
+
         if (breakSound != null)
         {
             AudioSource.PlayClipAtPoint(breakSound, transform.position);
@@ -50,10 +53,10 @@ public class DestroyBox : MonoBehaviour
             Instantiate(particlePrefab, transform.position, Quaternion.identity);
         }
 
-      
+
         Destroy(gameObject);
 
-       
+
         Destroy(bullet);
     }
 
