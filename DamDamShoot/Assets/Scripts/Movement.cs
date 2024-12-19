@@ -167,6 +167,9 @@ public class CapsuleMovement : MonoBehaviour
         Debug.Log("Disparo realizado. Balas restantes: " + ammoCount);
 
         CreateProjectile(projectilePrefab, false); // Bala normal
+        AudioManager.Instance.PlayAudio("Shot");
+
+
     }
 
     void ShootPowerfulProjectile()
@@ -181,6 +184,8 @@ public class CapsuleMovement : MonoBehaviour
         Debug.Log("Disparo potente realizado. Balas restantes: " + ammoCount);
 
         CreateProjectile(powerfulProjectilePrefab, true); // Bala potente
+        AudioManager.Instance.PlayAudio("StrongShot");
+
     }
 
     void CreateProjectile(GameObject prefab, bool isPowerful)
@@ -217,6 +222,7 @@ public class CapsuleMovement : MonoBehaviour
         Debug.Log("Escudo Activado");
         isShieldActive = true;
         canUseShield = false;
+        AudioManager.Instance.PlayAudio("Shield");
 
         if (shieldVisual != null)
             shieldVisual.SetActive(true);
@@ -249,6 +255,8 @@ public class CapsuleMovement : MonoBehaviour
             reloadUIController.StartReloadAnimation(isP1);
         }
         StartCoroutine(ReloadCoroutine());
+        AudioManager.Instance.PlayAudio("Reload");
+
     }
 
     IEnumerator ReloadCoroutine()
@@ -273,6 +281,8 @@ public class CapsuleMovement : MonoBehaviour
             isReloading = false;
         }
         StartCoroutine(DashCoroutine());
+        AudioManager.Instance.PlayAudio("Dash");
+
     }
 
     IEnumerator DashCoroutine()

@@ -238,6 +238,15 @@ public class ClientUDP1 : MonoBehaviour
                 Vector3 direction = new Vector3(dx, 0, dz);
                 GameObject prefab = isPowerful ? pwprojectilePrefab : projectilePrefab;
                 GameObject projectile = Instantiate(prefab, position, Quaternion.identity);
+                if (isPowerful)
+                {
+                    AudioManager.Instance.PlayAudio("StrongShot");
+                }
+                else 
+                {
+                    AudioManager.Instance.PlayAudio("Shot");
+                }
+
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 if (rb != null)
                 {

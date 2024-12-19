@@ -243,6 +243,15 @@ public class ServerUDP : MonoBehaviour
                 GameObject prefab = isPowerful ? pwprojectilePrefab : projectilePrefab;
                 GameObject projectile = Instantiate(prefab, position, Quaternion.identity);
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
+                if (isPowerful)
+                {
+                    AudioManager.Instance.PlayAudio("StrongShot");
+                }
+                else
+                {
+                    AudioManager.Instance.PlayAudio("Shot");
+                }
+
                 if (rb != null)
                 {
                     rb.velocity = direction.normalized * projectileSpeed;
@@ -280,7 +289,6 @@ public class ServerUDP : MonoBehaviour
 
     public void SendShield()
     {
-
         Debug.Log("SendShield");
         string message = $"SHIELD";
         byte[] data = Encoding.UTF8.GetBytes(message);
