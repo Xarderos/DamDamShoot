@@ -20,7 +20,7 @@ public class HostJoinManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        ip = ipInputField.text;
     }
 
     public void SetClient() {

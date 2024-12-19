@@ -63,7 +63,7 @@ public class ClientUDP1 : MonoBehaviour
         serverIP = "127.0.0.1";
 
         script = GameObject.Find("DontDestroy").GetComponent<HostJoinManager>();
-        if (!string.IsNullOrEmpty(script.ip))
+        if (script.ip != "")
         {
             serverIP = script.ip;
         }
