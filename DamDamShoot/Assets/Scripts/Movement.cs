@@ -11,8 +11,8 @@ public class CapsuleMovement : MonoBehaviour
     public GameObject projectilePrefab;
     public GameObject powerfulProjectilePrefab;
     public float projectileSpeed = 10f;
-    public float reloadTime = 2f;
-    public float reloadSpeedMultiplier = 0.5f;
+    public float reloadLifeTime = 2f;
+    public float speedWhileReloading = 0.5f;
     public float dashSpeedMultiplier = 3f;
     public float dashDuration = 0.2f;
     public float dashCooldown = 5f;
@@ -28,7 +28,7 @@ public class CapsuleMovement : MonoBehaviour
     private bool canDash = true;
     private Coroutine reloadCoroutine = null;
 
-    // Escudo
+    //Shield
     public float shieldDuration = 0.75f;
     public float shieldCooldown = 4f;
     private bool canUseShield = true;
@@ -257,8 +257,8 @@ public class CapsuleMovement : MonoBehaviour
     {
         Debug.Log("Recargando...");
         isReloading = true;
-        speed *= reloadSpeedMultiplier;
-        yield return new WaitForSeconds(reloadTime);
+        speed *= speedWhileReloading;
+        yield return new WaitForSeconds(reloadLifeTime);
         speed = originalSpeed;
         ammoCount++;
         Debug.Log("Recarga completa. Balas disponibles: " + ammoCount);

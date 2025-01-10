@@ -27,7 +27,7 @@ public class ServerUDP : MonoBehaviour
     private Thread sendThread;
     bool positionUpdatedP2;
     public GameObject projectilePrefab;
-    public GameObject pwprojectilePrefab;
+    public GameObject powProjectilePrefab;
 
     public float projectileSpeed = 10f;
     public float bulletTime = 2f;
@@ -87,7 +87,7 @@ public class ServerUDP : MonoBehaviour
         playerPosition = player1.transform.position;
         if (positionUpdatedP2)
         {
-            player2.transform.position = receivedPositionP2;
+            player2.transform.position = Vector3.Lerp(player2.transform.position, receivedPositionP2, Time.deltaTime * 50);
             positionUpdatedP2 = false;
         }
         lock (mainThreadActions)
@@ -208,15 +208,15 @@ public class ServerUDP : MonoBehaviour
             {
                 lock (this)
                 {
-                    Send(clientEndpoint);
+                    SendPlayerPos(clientEndpoint);
                 }
             }
-            Thread.Sleep(10);
+            Thread.Sleep(30);
         }
     }
 
 
-    void Send(EndPoint remote)
+    void SendPlayerPos(EndPoint remote)
     {
         string message = $"{playerPosition.x}|{playerPosition.y}|{playerPosition.z}";
         byte[] data = Encoding.UTF8.GetBytes(message);
@@ -238,7 +238,7 @@ public class ServerUDP : MonoBehaviour
             {
                 Vector3 position = new Vector3(px, py, pz);
                 Vector3 direction = new Vector3(dx, 0, dz);
-                GameObject prefab = isPowerful ? pwprojectilePrefab : projectilePrefab;
+                GameObject prefab = isPowerful ? powProjectilePrefab : projectilePrefab;
                 GameObject projectile = Instantiate(prefab, position, Quaternion.identity);
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 if (isPowerful)
