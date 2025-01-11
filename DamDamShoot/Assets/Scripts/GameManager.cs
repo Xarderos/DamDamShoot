@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public GameObject Server;
     public GameObject Client;
 
+    ////Reload Zone
+    //public GameObject ReloadZoneP1;
+    //public GameObject ReloadZoneP2;
 
     HostJoinManager script;
 
@@ -53,6 +56,7 @@ public class GameManager : MonoBehaviour
         isServer = true;
         isClient = false;
         Server.SetActive(true);
+        SetPlayerMovement(true, false);
         SetPlayerMovement(true, false);
     }
 
