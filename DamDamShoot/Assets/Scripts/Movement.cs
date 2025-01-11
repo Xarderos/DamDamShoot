@@ -35,7 +35,8 @@ public class CapsuleMovement : MonoBehaviour
     private bool isShieldActive = false;
     public GameObject shieldVisual;
 
-
+    //Zona de recarga
+    private bool isInReloadZone = false;
 
     //Parry
     public GameObject parryVisual; 
@@ -96,7 +97,15 @@ public class CapsuleMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            StartReload();
+            //ReloadZone
+            if (isInReloadZone)
+            {
+                StartReload();
+            }
+            else
+            {
+                Debug.LogWarning("No puedes recargar fuera de una zona de recarga.");
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && canDash)
@@ -355,6 +364,25 @@ public class CapsuleMovement : MonoBehaviour
             SceneManager.LoadScene("P1Win");
         }
         
+    }
+    //ReloadZone
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("ReloadZone"))
+        {
+            isInReloadZone = true;
+            Debug.Log("Entraste en la zona de recarga.");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("ReloadZone"))
+        {
+            isInReloadZone = false;
+            Debug.Log("Saliste de la zona de recarga.");
+        }
     }
 
 }

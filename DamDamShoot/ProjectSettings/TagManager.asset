@@ -10,6 +10,7 @@ TagManager:
   - Box2
   - PowerfulBulletP2
   - PowerfulBulletP1
+  - ReloadZone
   layers:
   - Default
   - TransparentFX

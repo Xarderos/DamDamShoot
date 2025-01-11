@@ -43,6 +43,8 @@ public class ServerUDP : MonoBehaviour
     float parryZ = 0;
     bool isparrying = false;
 
+    //ReloadZone
+    public GameObject reloadZoneP1;
     void Awake()
     {
         if (Instance == null)
@@ -359,6 +361,15 @@ public class ServerUDP : MonoBehaviour
         player1.GetComponent<CapsuleMovement>().canMove = true;
         clientConnected = true;
 
+        //ReloadZone
+        if (reloadZoneP1 != null)
+        {
+            reloadZoneP1.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("No se ha asignado el objeto ReloadZone en el inspector.");
+        }
     }
     
 }
