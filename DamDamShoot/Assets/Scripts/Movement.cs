@@ -97,6 +97,7 @@ public class CapsuleMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
+            //ReloadZone
             if (isInReloadZone)
             {
                 StartReload();
@@ -364,6 +365,7 @@ public class CapsuleMovement : MonoBehaviour
         }
         
     }
+    //ReloadZone
 
     private void OnTriggerEnter(Collider other)
     {

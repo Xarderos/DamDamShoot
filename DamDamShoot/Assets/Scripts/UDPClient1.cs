@@ -43,6 +43,8 @@ public class ClientUDP1 : MonoBehaviour
     bool isparrying = false;
     HostJoinManager script;
 
+    //ReloadZone
+    public GameObject reloadZoneP2;
     void Awake()
     {
         if (Instance == null)
@@ -360,5 +362,15 @@ public class ClientUDP1 : MonoBehaviour
         waitingCanvas.SetActive(false);
         player2.GetComponent<CapsuleMovement>().canMove = true;
         gameStarted = true;
+
+        //ReloadZone
+        if (reloadZoneP2 != null)
+        {
+            reloadZoneP2.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("No se ha asignado el objeto ReloadZone en el inspector.");
+        }
     }
 }

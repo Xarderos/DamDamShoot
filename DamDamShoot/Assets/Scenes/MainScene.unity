@@ -931,6 +931,7 @@ MonoBehaviour:
   pwprojectilePrefab: {fileID: 8563628831176145471, guid: 5535bd9334d54c147a93b13deb7bc6e7, type: 3}
   projectileSpeed: 10
   bulletTime: 2
+  reloadZoneP1: {fileID: 1356707256}
 --- !u!4 &87312400 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5770a8001c27cb4449bd7227cac294a9, type: 3}
@@ -8305,7 +8306,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1322198173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8326,7 +8327,7 @@ MonoBehaviour:
   - {fileID: 125821722}
   - {fileID: 154538427}
   - {fileID: 1596627383}
-  teleportInterval: 5
+  teleportInterval: 7
 --- !u!136 &1322198174
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8667,7 +8668,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1356707257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8688,7 +8689,7 @@ MonoBehaviour:
   - {fileID: 973227918}
   - {fileID: 546871597}
   - {fileID: 36338354}
-  teleportInterval: 5
+  teleportInterval: 7
 --- !u!136 &1356707258
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -13910,6 +13911,7 @@ MonoBehaviour:
   pwprojectilePrefab: {fileID: 8563628831176145471, guid: 57e1b0947268f6640be6de19a80d7fd0, type: 3}
   projectileSpeed: 10
   bulletTime: 2
+  reloadZoneP2: {fileID: 1322198172}
 --- !u!4 &2011731897 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5770a8001c27cb4449bd7227cac294a9, type: 3}

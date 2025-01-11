@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ReloadZoneController : MonoBehaviour
 {
-    public Transform[] waypoints; // Lista de posiciones posibles para la zona de recarga
-    public float teleportInterval = 10f; // Intervalo en segundos entre teletransportes
+    public Transform[] waypoints;
+    public float teleportInterval = 10f;
 
     private void Start()
     {
