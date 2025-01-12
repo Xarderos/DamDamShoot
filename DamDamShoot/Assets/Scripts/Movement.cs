@@ -57,6 +57,7 @@ public class CapsuleMovement : MonoBehaviour
         rb.useGravity = false;
         mainCamera = Camera.main;
         originalSpeed = speed;
+        isInReloadZone = false;
 
         if (shieldVisual != null)
             shieldVisual.SetActive(false);

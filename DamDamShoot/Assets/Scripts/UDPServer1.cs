@@ -122,7 +122,7 @@ public class ServerUDP : MonoBehaviour
 
         Debug.Log("Waiting for new Client...");
 
-        while (true)
+        while (isSending)
         {
             try
             {
@@ -197,7 +197,7 @@ public class ServerUDP : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("Error de socket: " + ex.Message);
+                    Debug.LogWarning("Error de socket: " + ex.Message);
                 }
             }
 
@@ -215,6 +215,8 @@ public class ServerUDP : MonoBehaviour
                     SendPlayerPos(clientEndpoint);
                 }
             }
+            Thread.Sleep(30);
+
         }
     }
 

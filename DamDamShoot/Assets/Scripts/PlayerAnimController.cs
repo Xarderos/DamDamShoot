@@ -9,6 +9,8 @@ public class PlayerAnimController : MonoBehaviour
 {
     public Animator playeranimator;
     Vector3 oldposition = Vector3.zero;
+    float timer = 0;
+    public float AnimOFFSET = 0.01f;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +20,10 @@ public class PlayerAnimController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (oldposition != transform.position)
+        float posTesterX = oldposition.x - transform.position.x;
+        float posTesterZ = oldposition.z - transform.position.z;
+       
+        if ((posTesterX > AnimOFFSET || posTesterZ > AnimOFFSET) || (posTesterX < -AnimOFFSET || posTesterZ < -AnimOFFSET))
         {
             playeranimator.SetBool("isRunning", true);
         }
@@ -26,6 +31,12 @@ public class PlayerAnimController : MonoBehaviour
         {
             playeranimator.SetBool("isRunning", false);
         }
-        oldposition = transform.position;
+
+        if (timer < 0)
+        {
+            oldposition = transform.position;
+            timer = 0.1f;
+        }
+        timer-=Time.deltaTime;
     }
 }

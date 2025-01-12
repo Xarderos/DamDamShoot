@@ -43,6 +43,8 @@ public class ClientUDP1 : MonoBehaviour
     bool isparrying = false;
     HostJoinManager script;
 
+    float time = 0;
+
     //ReloadZone
     public GameObject reloadZoneP2;
     void Awake()
@@ -106,6 +108,7 @@ public class ClientUDP1 : MonoBehaviour
             ActivateParry(parryX, parryZ);
             isparrying = false;
         }
+        time = Time.time;
     }
 
     void StartClient()
@@ -134,14 +137,14 @@ public class ClientUDP1 : MonoBehaviour
             }
 
             float lastSendTime = 0f;
-            float sendInterval = 0.03f;
+            float sendInterval = 0.02f;
 
             while (isRunning)
             {
-                if (Time.time - lastSendTime >= sendInterval)
+                if (time - lastSendTime >= sendInterval)
                 {
                     SendPosition(ipep);
-                    lastSendTime = Time.time;
+                    lastSendTime = time;
                 }
 
                 ReceiveData();
