@@ -29,8 +29,8 @@ public class ServerUDP : MonoBehaviour
     public GameObject projectilePrefab;
     public GameObject powProjectilePrefab;
 
-    public float projectileSpeed = 10f;
-    public float bulletTime = 2f;
+    public float projectileSpeed = 12f;
+    public float bulletLifeTime = 2f;
 
 
 
@@ -60,6 +60,8 @@ public class ServerUDP : MonoBehaviour
     void Start()
     {
         playerPosition = player1.transform.position;
+        projectileSpeed = player1.GetComponent<CapsuleMovement>().projectileSpeed;
+
         startServer();
     }
     public void startServer()
@@ -213,7 +215,6 @@ public class ServerUDP : MonoBehaviour
                     SendPlayerPos(clientEndpoint);
                 }
             }
-            Thread.Sleep(30);
         }
     }
 
@@ -243,6 +244,10 @@ public class ServerUDP : MonoBehaviour
                 GameObject prefab = isPowerful ? powProjectilePrefab : projectilePrefab;
                 GameObject projectile = Instantiate(prefab, position, Quaternion.identity);
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.velocity = direction.normalized * projectileSpeed;
+                }
                 if (isPowerful)
                 {
                     AudioManager.Instance.PlayAudio("StrongShot");
@@ -252,11 +257,8 @@ public class ServerUDP : MonoBehaviour
                     AudioManager.Instance.PlayAudio("Shot");
                 }
 
-                if (rb != null)
-                {
-                    rb.velocity = direction.normalized * projectileSpeed;
-                }
-                Destroy(projectile, bulletTime);
+
+                Destroy(projectile, bulletLifeTime);
             });
         }
     }

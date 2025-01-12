@@ -11,12 +11,12 @@ public class CapsuleMovement : MonoBehaviour
     public GameObject projectilePrefab;
     public GameObject powerfulProjectilePrefab;
     public float projectileSpeed = 10f;
-    public float reloadLifeTime = 2f;
+    public float reloadTime = 2f;
     public float speedWhileReloading = 0.5f;
     public float dashSpeedMultiplier = 3f;
     public float dashDuration = 0.2f;
     public float dashCooldown = 5f;
-    public float bulletTime = 2f;
+    public float bulletLifeTime = 2f;
     public bool isP1 = true;
 
     private Rigidbody rb;
@@ -216,7 +216,7 @@ public class CapsuleMovement : MonoBehaviour
                     ClientUDP1.Instance.SendShot(newBulletPosition.x, newBulletPosition.y, newBulletPosition.z, direction.x, direction.z, isPowerful);
                 }
             }
-            Destroy(projectile, bulletTime);
+            Destroy(projectile, bulletLifeTime);
         }
     }
 
@@ -267,7 +267,7 @@ public class CapsuleMovement : MonoBehaviour
         Debug.Log("Recargando...");
         isReloading = true;
         speed *= speedWhileReloading;
-        yield return new WaitForSeconds(reloadLifeTime);
+        yield return new WaitForSeconds(reloadTime);
         speed = originalSpeed;
         ammoCount++;
         Debug.Log("Recarga completa. Balas disponibles: " + ammoCount);
@@ -338,7 +338,7 @@ public class CapsuleMovement : MonoBehaviour
             {
                 rb.velocity = direction.normalized * projectileSpeed;
             }
-            Destroy(projectile, bulletTime);
+            Destroy(projectile, bulletLifeTime);
             isParrying = false;
 
         }

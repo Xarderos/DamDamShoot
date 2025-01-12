@@ -25,8 +25,8 @@ public class ClientUDP1 : MonoBehaviour
     public GameObject projectilePrefab;
     public GameObject powProjectilePrefab;
 
-    public float projectileSpeed = 10f;
-    public float bulletTime = 2f;
+    public float projectileSpeed = 12f;
+    public float bulletLifeTime = 2f;
 
     private Vector3 receivedPositionP1;
     private Vector3 playerPosition;
@@ -69,7 +69,7 @@ public class ClientUDP1 : MonoBehaviour
         waitingText.gameObject.SetActive(false);
         receivedPositionP1 = new Vector3(0, 0, 0);
         playerPosition = player2.transform.position;
-
+        projectileSpeed = player2.GetComponent<CapsuleMovement>().projectileSpeed;
         StartClient();
     }
 
@@ -258,7 +258,7 @@ public class ClientUDP1 : MonoBehaviour
                 {
                     rb.velocity = direction.normalized * projectileSpeed;
                 }
-                Destroy(projectile, bulletTime);
+                Destroy(projectile, bulletLifeTime);
             });
         }
     }
