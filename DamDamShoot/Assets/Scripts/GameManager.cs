@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
         isClient = false;
         Server.SetActive(true);
         SetPlayerMovement(true, false);
-        SetPlayerMovement(true, false);
     }
 
     public void setClient()
