@@ -249,23 +249,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMove: 1
-  speed: 5
+  speed: 4
   projectilePrefab: {fileID: 8563628831176145471, guid: 86c1cf10c2fd26245afd4a1374906d39, type: 3}
   powerfulProjectilePrefab: {fileID: 8563628831176145471, guid: 57e1b0947268f6640be6de19a80d7fd0, type: 3}
-  projectileSpeed: 12
+  projectileSpeed: 14
   reloadTime: 2
-  speedWhileReloading: 0.5
+  speedWhileReloading: 0.7
   dashSpeedMultiplier: 3
   dashDuration: 0.2
   dashCooldown: 4
-  bulletLifeTime: 2
+  bulletLifeTime: 3
   isP1: 1
   ammoCount: 1
   shieldDuration: 0.5
   shieldCooldown: 4
   shieldVisual: {fileID: 1627094036}
   parryVisual: {fileID: 1627094036}
-  parryDuration: 3.77
+  parryDuration: 1
   bulletLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -311,8 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2175508c90dcfd24eb8a2068debd3371, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playeranimator: {fileID: 2066096845}
-  AnimOFFSET: 0.01
+  playerAnimator: {fileID: 2066096845}
 --- !u!1001 &27588334
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -789,9 +788,9 @@ MonoBehaviour:
   player1: {fileID: 14825548}
   player2: {fileID: 1360974092}
   projectilePrefab: {fileID: 8563628831176145471, guid: 06daba971c0d8cd4cb25963724ea4fb6, type: 3}
-  powProjectilePrefab: {fileID: 0}
-  projectileSpeed: 12
-  bulletLifeTime: 2
+  powProjectilePrefab: {fileID: 8563628831176145471, guid: 5535bd9334d54c147a93b13deb7bc6e7, type: 3}
+  projectileSpeed: 14
+  bulletLifeTime: 3
   reloadZoneP1: {fileID: 1356707256}
 --- !u!4 &76567333 stripped
 Transform:
@@ -1967,7 +1966,7 @@ Transform:
   m_GameObject: {fileID: 319970385}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1.83, y: 15.13, z: 5.14}
+  m_LocalPosition: {x: -1.83, y: 14.77, z: 5.14}
   m_LocalScale: {x: 0.47455, y: 1, z: 29.405104}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5204,7 +5203,7 @@ Transform:
   m_GameObject: {fileID: 1061276509}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.35, y: 15.13, z: 12.13}
+  m_LocalPosition: {x: -14.35, y: 14.77, z: 12.13}
   m_LocalScale: {x: 0.47455, y: 1, z: 17.939787}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6788,23 +6787,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMove: 1
-  speed: 5
+  speed: 4
   projectilePrefab: {fileID: 8563628831176145471, guid: 06daba971c0d8cd4cb25963724ea4fb6, type: 3}
   powerfulProjectilePrefab: {fileID: 8563628831176145471, guid: 5535bd9334d54c147a93b13deb7bc6e7, type: 3}
-  projectileSpeed: 12
+  projectileSpeed: 14
   reloadTime: 2
-  speedWhileReloading: 0.5
+  speedWhileReloading: 0.7
   dashSpeedMultiplier: 3
   dashDuration: 0.2
   dashCooldown: 4
-  bulletLifeTime: 2
+  bulletLifeTime: 3
   isP1: 0
   ammoCount: 1
   shieldDuration: 0.5
   shieldCooldown: 4
   shieldVisual: {fileID: 1975390404}
   parryVisual: {fileID: 1975390404}
-  parryDuration: 2.89
+  parryDuration: 1
   bulletLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -6850,8 +6849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2175508c90dcfd24eb8a2068debd3371, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playeranimator: {fileID: 1455650660}
-  AnimOFFSET: 0.05
+  playerAnimator: {fileID: 1455650660}
 --- !u!1001 &1373100203
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7818,7 +7816,7 @@ Transform:
   m_GameObject: {fileID: 1593223413}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.67, y: 15.13, z: 12.13}
+  m_LocalPosition: {x: 10.67, y: 14.77, z: 12.13}
   m_LocalScale: {x: 0.47455, y: 1, z: 17.939787}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8096,7 +8094,7 @@ Transform:
   m_GameObject: {fileID: 1615453657}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1.83, y: 15.13, z: 19.17}
+  m_LocalPosition: {x: -1.83, y: 14.77, z: 19.17}
   m_LocalScale: {x: 0.47455, y: 1, z: 29.405104}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11435,9 +11433,9 @@ MonoBehaviour:
   player1: {fileID: 14825548}
   player2: {fileID: 1360974092}
   projectilePrefab: {fileID: 8563628831176145471, guid: 86c1cf10c2fd26245afd4a1374906d39, type: 3}
-  powProjectilePrefab: {fileID: 0}
-  projectileSpeed: 12
-  bulletLifeTime: 2
+  powProjectilePrefab: {fileID: 8563628831176145471, guid: 57e1b0947268f6640be6de19a80d7fd0, type: 3}
+  projectileSpeed: 14
+  bulletLifeTime: 3
   reloadZoneP2: {fileID: 1322198172}
 --- !u!1001 &1995891117
 PrefabInstance:

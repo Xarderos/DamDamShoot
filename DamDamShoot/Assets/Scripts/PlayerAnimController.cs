@@ -2,41 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Animation
-
-
 public class PlayerAnimController : MonoBehaviour
 {
-    public Animator playeranimator;
-    Vector3 oldposition = Vector3.zero;
-    float timer = 0;
-    public float AnimOFFSET = 0.01f;
-    // Start is called before the first frame update
+    public Animator playerAnimator;
+    private Vector3 lastPosition = Vector3.zero;
+    private float movementThreshold = 0.1f; // Umbral mínimo para detectar movimiento
+    private float checkInterval = 0.1f; // Intervalo de tiempo entre actualizaciones
+    private float timer = 0;
+
     void Start()
     {
-        oldposition = transform.position;
+        lastPosition = transform.position;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        float posTesterX = oldposition.x - transform.position.x;
-        float posTesterZ = oldposition.z - transform.position.z;
-       
-        if ((posTesterX > AnimOFFSET || posTesterZ > AnimOFFSET) || (posTesterX < -AnimOFFSET || posTesterZ < -AnimOFFSET))
+        // Actualizar el temporizador
+        timer -= Time.deltaTime;
+
+        // Calcular la velocidad basada en la distancia recorrida desde la última posición
+        float distanceMoved = Vector3.Distance(transform.position, lastPosition);
+
+        // Si la distancia recorrida supera el umbral, activar la animación
+        if (distanceMoved > movementThreshold)
         {
-            playeranimator.SetBool("isRunning", true);
-        }
-        else
-        {
-            playeranimator.SetBool("isRunning", false);
+            playerAnimator.SetBool("isRunning", true);
         }
 
-        if (timer < 0)
+        // Cada intervalo de tiempo, actualizar la posición anterior y desactivar la animación si no hay movimiento
+        if (timer <= 0)
         {
-            oldposition = transform.position;
-            timer = 0.1f;
+            if (distanceMoved <= movementThreshold)
+            {
+                playerAnimator.SetBool("isRunning", false);
+            }
+
+            // Guardar la posición actual como la nueva posición anterior
+            lastPosition = transform.position;
+
+            // Reiniciar el temporizador
+            timer = checkInterval;
         }
-        timer-=Time.deltaTime;
     }
 }
