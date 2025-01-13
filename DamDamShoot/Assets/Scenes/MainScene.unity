@@ -6688,7 +6688,7 @@ Transform:
   m_GameObject: {fileID: 1322198172}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0.0000029504295}
-  m_LocalPosition: {x: 5.5149035, y: 0.027, z: -3.4259474}
+  m_LocalPosition: {x: 5.5149035, y: 0.17, z: -3.4259474}
   m_LocalScale: {x: 3.8302863, y: -0.07660572, z: 3.8302863}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6732,8 +6732,6 @@ MonoBehaviour:
   playerTwo: {fileID: 1360974092}
   Server: {fileID: 73354502}
   Client: {fileID: 1984555948}
-  p1Victories: 0
-  p2Victories: 0
 --- !u!4 &1331702995
 Transform:
   m_ObjectHideFlags: 0
