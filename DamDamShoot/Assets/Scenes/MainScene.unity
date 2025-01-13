@@ -3776,6 +3776,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pistol (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: de84123d5aa8e7347a0011a184b0fe81, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8442510506162454399, guid: de84123d5aa8e7347a0011a184b0fe81, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -8254,6 +8258,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: de84123d5aa8e7347a0011a184b0fe81, type: 3}
       propertyPath: m_Name
       value: Pistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: de84123d5aa8e7347a0011a184b0fe81, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8442510506162454399, guid: de84123d5aa8e7347a0011a184b0fe81, type: 3}
       propertyPath: m_Materials.Array.data[0]
