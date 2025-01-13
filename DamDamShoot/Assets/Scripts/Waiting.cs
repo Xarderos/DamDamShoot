@@ -7,7 +7,7 @@ using TMPro;
 public class PanelFadeController : MonoBehaviour
 {
     public Image panelImage;
-    public TextMeshProUGUI waitingText;  // Referencia al texto de "Waiting"
+    public Text waitingText;  // Referencia al texto de "Waiting"
 
     public float fadeDuration = 1f;
 

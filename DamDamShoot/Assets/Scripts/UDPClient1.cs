@@ -13,8 +13,8 @@ using TMPro;
 public class ClientUDP1 : MonoBehaviour
 {   
     public GameObject waitingCanvas;
-    public TextMeshProUGUI countdownText;
-    public TextMeshProUGUI waitingText;
+    public Text countdownText;
+    public Text waitingText;
     private bool gameStarted = false;
 
     Socket socket;
@@ -229,7 +229,6 @@ public class ClientUDP1 : MonoBehaviour
         }
         catch (SocketException e)
         {
-            Debug.LogError("Error receiving data: " + e.Message);
         }
     }
 

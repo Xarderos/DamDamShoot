@@ -11,6 +11,10 @@ public class HostJoinManager : MonoBehaviour
 
     public InputField ipInputField;
     public string ip;
+
+    public int p1Victories = 0;
+    public int p2Victories = 0;
+
     void Start()
     {
         DontDestroyOnLoad(gameObject);

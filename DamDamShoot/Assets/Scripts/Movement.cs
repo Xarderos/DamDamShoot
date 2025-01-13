@@ -50,8 +50,12 @@ public class CapsuleMovement : MonoBehaviour
 
     public ReloadUIController reloadUIController;
 
+    HostJoinManager script;
+
     void Start()
     {
+        script = GameObject.Find("DontDestroy").GetComponent<HostJoinManager>();
+
         ammoCount = 1;
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
@@ -345,10 +349,16 @@ public class CapsuleMovement : MonoBehaviour
         }
         else if (isP1 && collision.transform.CompareTag("PowerfulBulletP2"))
         {
+            script = GameObject.Find("DontDestroy").GetComponent<HostJoinManager>();
+
+            script.p2Victories++;
             SceneManager.LoadScene("P2Win");
         }
         else if (!isP1 && collision.transform.CompareTag("PowerfulBulletP1"))
         {
+            script = GameObject.Find("DontDestroy").GetComponent<HostJoinManager>();
+
+            script.p1Victories++;
             SceneManager.LoadScene("P1Win");
         }
         else if (isShieldActive && (collision.transform.CompareTag("BulletP2") || collision.transform.CompareTag("BulletP1")))
@@ -358,10 +368,18 @@ public class CapsuleMovement : MonoBehaviour
         }
         else if (isP1 && collision.transform.CompareTag("BulletP2"))
         {
+            script = GameObject.Find("DontDestroy").GetComponent<HostJoinManager>();
+
+            script.p2Victories++;
+
             SceneManager.LoadScene("P2Win");
         }
         else if (!isP1 && collision.transform.CompareTag("BulletP1"))
         {
+            script = GameObject.Find("DontDestroy").GetComponent<HostJoinManager>();
+
+            script.p1Victories++;
+
             SceneManager.LoadScene("P1Win");
         }
         

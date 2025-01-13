@@ -7,12 +7,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.UI;
 
 public class ServerUDP : MonoBehaviour
 {
     public GameObject waitingCanvas;
-    public TextMeshProUGUI countdownText;
-    public TextMeshProUGUI waitingText;
+    public Text countdownText;
+    public Text waitingText;
     private bool clientConnected = false;
 
 

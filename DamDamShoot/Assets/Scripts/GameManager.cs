@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public GameObject Server;
     public GameObject Client;
 
+
+
     ////Reload Zone
     //public GameObject ReloadZoneP1;
     //public GameObject ReloadZoneP2;
