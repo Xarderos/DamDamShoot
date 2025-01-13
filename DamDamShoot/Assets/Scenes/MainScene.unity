@@ -1524,10 +1524,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264854501}
     m_Modifications:
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: breakSound
       value: 
-      objectReference: {fileID: 8300000, guid: 6c6371f1269847c42820d3c4ea3981a0, type: 3}
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: particlePrefab
       value: 
@@ -3631,10 +3639,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1589576204}
     m_Modifications:
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: breakSound
       value: 
-      objectReference: {fileID: 8300000, guid: 6c6371f1269847c42820d3c4ea3981a0, type: 3}
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: particlePrefab
       value: 
@@ -4062,10 +4078,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1589576204}
     m_Modifications:
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: breakSound
       value: 
-      objectReference: {fileID: 8300000, guid: 6c6371f1269847c42820d3c4ea3981a0, type: 3}
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: particlePrefab
       value: 
@@ -6007,10 +6031,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264854501}
     m_Modifications:
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: breakSound
       value: 
-      objectReference: {fileID: 8300000, guid: 6c6371f1269847c42820d3c4ea3981a0, type: 3}
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: particlePrefab
       value: 
@@ -8288,10 +8320,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1589576204}
     m_Modifications:
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: breakSound
       value: 
-      objectReference: {fileID: 8300000, guid: 6c6371f1269847c42820d3c4ea3981a0, type: 3}
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: particlePrefab
       value: 
@@ -10838,10 +10878,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264854501}
     m_Modifications:
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: breakSound
       value: 
-      objectReference: {fileID: 8300000, guid: 6c6371f1269847c42820d3c4ea3981a0, type: 3}
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: particlePrefab
       value: 
@@ -11377,10 +11425,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264854501}
     m_Modifications:
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: breakSound
       value: 
-      objectReference: {fileID: 8300000, guid: 6c6371f1269847c42820d3c4ea3981a0, type: 3}
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: particlePrefab
       value: 
@@ -12211,10 +12267,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1589576204}
     m_Modifications:
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6884720779240311178, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: breakSound
       value: 
-      objectReference: {fileID: 8300000, guid: 6c6371f1269847c42820d3c4ea3981a0, type: 3}
+      objectReference: {fileID: 8300000, guid: 965e67e1649d2b641a8585d6b3775c98, type: 3}
     - target: {fileID: 4178041950654915088, guid: 7222b08046fd45e428b38326bb4dcd7f, type: 3}
       propertyPath: particlePrefab
       value: 
